@@ -34,13 +34,22 @@
             "id": "957a52e4-74a3-4be0-9f67-add46233a4c2",
             "actions": [
                 {
-                    "name": "Interact",
+                    "name": "Grab And Release",
                     "type": "Button",
                     "id": "a18e42fd-c572-40d5-a0bc-82ea775cef4d",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Zoom",
+                    "type": "Value",
+                    "id": "76a497ce-1019-4a10-aeb4-a0dc19cc6022",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -51,7 +60,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Mouse and Keyboard",
-                    "action": "Interact",
+                    "action": "Grab And Release",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c8bf5aa0-44c3-4acc-ad9f-a73319e9b21c",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse and Keyboard",
+                    "action": "Zoom",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

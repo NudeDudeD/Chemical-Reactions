@@ -56,13 +56,22 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""id"": ""957a52e4-74a3-4be0-9f67-add46233a4c2"",
             ""actions"": [
                 {
-                    ""name"": ""Interact"",
+                    ""name"": ""Grab And Release"",
                     ""type"": ""Button"",
                     ""id"": ""a18e42fd-c572-40d5-a0bc-82ea775cef4d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""76a497ce-1019-4a10-aeb4-a0dc19cc6022"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -73,7 +82,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Mouse and Keyboard"",
-                    ""action"": ""Interact"",
+                    ""action"": ""Grab And Release"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c8bf5aa0-44c3-4acc-ad9f-a73319e9b21c"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse and Keyboard"",
+                    ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -104,7 +124,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerTransform_Rotate = m_PlayerTransform.FindAction("Rotate", throwIfNotFound: true);
         // World Interaction
         m_WorldInteraction = asset.FindActionMap("World Interaction", throwIfNotFound: true);
-        m_WorldInteraction_Interact = m_WorldInteraction.FindAction("Interact", throwIfNotFound: true);
+        m_WorldInteraction_GrabAndRelease = m_WorldInteraction.FindAction("Grab And Release", throwIfNotFound: true);
+        m_WorldInteraction_Zoom = m_WorldInteraction.FindAction("Zoom", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -212,12 +233,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     // World Interaction
     private readonly InputActionMap m_WorldInteraction;
     private List<IWorldInteractionActions> m_WorldInteractionActionsCallbackInterfaces = new List<IWorldInteractionActions>();
-    private readonly InputAction m_WorldInteraction_Interact;
+    private readonly InputAction m_WorldInteraction_GrabAndRelease;
+    private readonly InputAction m_WorldInteraction_Zoom;
     public struct WorldInteractionActions
     {
         private @PlayerControls m_Wrapper;
         public WorldInteractionActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Interact => m_Wrapper.m_WorldInteraction_Interact;
+        public InputAction @GrabAndRelease => m_Wrapper.m_WorldInteraction_GrabAndRelease;
+        public InputAction @Zoom => m_Wrapper.m_WorldInteraction_Zoom;
         public InputActionMap Get() { return m_Wrapper.m_WorldInteraction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -227,16 +250,22 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_WorldInteractionActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_WorldInteractionActionsCallbackInterfaces.Add(instance);
-            @Interact.started += instance.OnInteract;
-            @Interact.performed += instance.OnInteract;
-            @Interact.canceled += instance.OnInteract;
+            @GrabAndRelease.started += instance.OnGrabAndRelease;
+            @GrabAndRelease.performed += instance.OnGrabAndRelease;
+            @GrabAndRelease.canceled += instance.OnGrabAndRelease;
+            @Zoom.started += instance.OnZoom;
+            @Zoom.performed += instance.OnZoom;
+            @Zoom.canceled += instance.OnZoom;
         }
 
         private void UnregisterCallbacks(IWorldInteractionActions instance)
         {
-            @Interact.started -= instance.OnInteract;
-            @Interact.performed -= instance.OnInteract;
-            @Interact.canceled -= instance.OnInteract;
+            @GrabAndRelease.started -= instance.OnGrabAndRelease;
+            @GrabAndRelease.performed -= instance.OnGrabAndRelease;
+            @GrabAndRelease.canceled -= instance.OnGrabAndRelease;
+            @Zoom.started -= instance.OnZoom;
+            @Zoom.performed -= instance.OnZoom;
+            @Zoom.canceled -= instance.OnZoom;
         }
 
         public void RemoveCallbacks(IWorldInteractionActions instance)
@@ -269,6 +298,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     }
     public interface IWorldInteractionActions
     {
-        void OnInteract(InputAction.CallbackContext context);
+        void OnGrabAndRelease(InputAction.CallbackContext context);
+        void OnZoom(InputAction.CallbackContext context);
     }
 }

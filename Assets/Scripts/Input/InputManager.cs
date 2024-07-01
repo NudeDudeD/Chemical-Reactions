@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,12 +5,16 @@ public class InputManager : MonoBehaviour
 {
     private PlayerControls _playerControls;
 
-    public InputAction PlayerRotate { get; private set; }
+    public InputAction RotatePlayer { get; private set; }
+    public InputAction GrabAndRelease{ get; private set; }
+    public InputAction ZoomGrabbed { get; private set; }
 
     private void Awake()
     {
         _playerControls = new PlayerControls();
-        PlayerRotate = _playerControls.PlayerTransform.Rotate;
+        RotatePlayer = _playerControls.PlayerTransform.Rotate;
+        GrabAndRelease = _playerControls.WorldInteraction.GrabAndRelease;
+        ZoomGrabbed = _playerControls.WorldInteraction.Zoom;
     }
 
     private void OnEnable()

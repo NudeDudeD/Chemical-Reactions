@@ -1,31 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(InputManager))]
 public class FirstPersonCameraController : MonoBehaviour
 {
-    private InputManager _inputManager;
+    private const float _MinRotationX = -90f;
+    private const float _MaxRotationX = 90f;
+
     private float _rotationX;
     private float _rotationY;
-
-    [SerializeField] private float _MinRotationX;
-    [SerializeField] private float _MaxRotationX;
 
     public float SensitivityX;
     public float SensitivityY;
 
-    private void Awake()
-    {
-        _inputManager = GetComponent<InputManager>();
-    }
-
     private void Start()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         _rotationX = transform.rotation.eulerAngles.x;
         _rotationY = transform.rotation.eulerAngles.y;
 
-        _inputManager.PlayerRotate.performed += Rotate;
+        GetComponent<InputManager>().RotatePlayer.performed += Rotate;
     }
 
     private void Rotate(InputAction.CallbackContext context)
