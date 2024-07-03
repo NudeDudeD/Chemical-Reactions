@@ -4,8 +4,8 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(InputManager))]
 public class FirstPersonCameraController : MonoBehaviour
 {
-    private const float _MinRotationX = -90f;
-    private const float _MaxRotationX = 90f;
+    private const float _minRotationX = -90f;
+    private const float _maxRotationX = 90f;
 
     private float _rotationX;
     private float _rotationY;
@@ -30,9 +30,7 @@ public class FirstPersonCameraController : MonoBehaviour
         Vector2 rotation = new Vector2(-input.y * SensitivityX, input.x * SensitivityY);
 
         _rotationX += rotation.x;
-        if (_rotationX >= 360f)
-            _rotationX -= 360f;
-        _rotationX = Mathf.Clamp(_rotationX, _MinRotationX, _MaxRotationX);
+        _rotationX = Mathf.Clamp(_rotationX, _minRotationX, _maxRotationX);
         _rotationY += rotation.y;
         if (_rotationY >= 360f)
             _rotationY -= 360f;

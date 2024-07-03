@@ -72,6 +72,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""c3560ef0-7154-4d20-b733-8dbb60bbf73c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -94,6 +103,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Mouse and Keyboard"",
                     ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a71714e1-a94d-447d-bd93-c984ebdfe9a5"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse and Keyboard"",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -126,6 +146,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_WorldInteraction = asset.FindActionMap("World Interaction", throwIfNotFound: true);
         m_WorldInteraction_GrabAndRelease = m_WorldInteraction.FindAction("Grab And Release", throwIfNotFound: true);
         m_WorldInteraction_Zoom = m_WorldInteraction.FindAction("Zoom", throwIfNotFound: true);
+        m_WorldInteraction_Interact = m_WorldInteraction.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -235,12 +256,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IWorldInteractionActions> m_WorldInteractionActionsCallbackInterfaces = new List<IWorldInteractionActions>();
     private readonly InputAction m_WorldInteraction_GrabAndRelease;
     private readonly InputAction m_WorldInteraction_Zoom;
+    private readonly InputAction m_WorldInteraction_Interact;
     public struct WorldInteractionActions
     {
         private @PlayerControls m_Wrapper;
         public WorldInteractionActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @GrabAndRelease => m_Wrapper.m_WorldInteraction_GrabAndRelease;
         public InputAction @Zoom => m_Wrapper.m_WorldInteraction_Zoom;
+        public InputAction @Interact => m_Wrapper.m_WorldInteraction_Interact;
         public InputActionMap Get() { return m_Wrapper.m_WorldInteraction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -256,6 +279,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Zoom.started += instance.OnZoom;
             @Zoom.performed += instance.OnZoom;
             @Zoom.canceled += instance.OnZoom;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         private void UnregisterCallbacks(IWorldInteractionActions instance)
@@ -266,6 +292,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Zoom.started -= instance.OnZoom;
             @Zoom.performed -= instance.OnZoom;
             @Zoom.canceled -= instance.OnZoom;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         public void RemoveCallbacks(IWorldInteractionActions instance)
@@ -300,5 +329,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         void OnGrabAndRelease(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

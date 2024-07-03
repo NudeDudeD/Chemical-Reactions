@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour
     public InputAction RotatePlayer { get; private set; }
     public InputAction GrabAndRelease{ get; private set; }
     public InputAction ZoomGrabbed { get; private set; }
+    public InputAction InteractWithObject { get; private set; }
 
     private void Awake()
     {
@@ -15,6 +16,7 @@ public class InputManager : MonoBehaviour
         RotatePlayer = _playerControls.PlayerTransform.Rotate;
         GrabAndRelease = _playerControls.WorldInteraction.GrabAndRelease;
         ZoomGrabbed = _playerControls.WorldInteraction.Zoom;
+        InteractWithObject = _playerControls.WorldInteraction.Interact;
     }
 
     private void OnEnable()
