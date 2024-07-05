@@ -1,32 +1,47 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "Chemistry/ChemicalReaction")]
+[CreateAssetMenu(menuName = "Chemistry/Chemical Reaction")]
 public class ChemicalReaction : ScriptableObject
 {
+    public enum ReactionAgent
+    {
+        None,
+        Heat
+    }
+
+    public enum ReactionEffect
+    {
+        None,
+        Explosion
+    }
+
     [Header("Mandatory Fields")]
-    [SerializeField] private ChemicalSubstance _inputElement;
-    [SerializeField] private ChemicalSubstance _outputElement;
+    [SerializeField] private ChemicalSubstance _inputSubstance;
+    [SerializeField] private ChemicalSubstance _outputSubstance;
 
     [Header("Additional Fields")]
-    [SerializeField] private ChemicalSubstance _additionalInputElement;
-    [SerializeField] private ChemicalSubstance _additionalOutputElement;
-    [SerializeField] private ReactionAgent _reactionAgent;
-    [SerializeField] private ReactionEffect _reactionEffect;
+    [SerializeField] private ChemicalSubstance _additionalInputSubstance;
+    [SerializeField] private ChemicalSubstance _additionalOutputSubstance;
+    [SerializeField] private ReactionAgent _agent;
+    [SerializeField] private ReactionEffect _effect;
+    [SerializeField] private bool _worksInReverse;
 
-    public ChemicalSubstance InputElement => _inputElement;
-    public ChemicalSubstance OutputElement => _outputElement;
-    public ChemicalSubstance AdditionalInputElement => _additionalInputElement;
-    public ChemicalSubstance AdditionalOutputElement => _additionalOutputElement;
-    public ReactionAgent ReactionAgent => _reactionAgent;
-    public ReactionEffect ReactionEffect => _reactionEffect;
+    public ChemicalSubstance InputSubstance => _inputSubstance;
+    public ChemicalSubstance OutputSubstance => _outputSubstance;
+    public ChemicalSubstance AdditionalInputSubstance => _additionalInputSubstance;
+    public ChemicalSubstance AdditionalOutputSubstance => _additionalOutputSubstance;
+    public ReactionAgent Agent => _agent;
+    public ReactionEffect Effect => _effect;
+    public bool WorksInReverse => _worksInReverse;
 
-    public ChemicalReaction(ChemicalSubstance requiredElement, ChemicalSubstance outputElement, ChemicalSubstance additionalElement = null, ChemicalSubstance additionalOutputElement = null, ReactionAgent reactionAgent = ReactionAgent.None, ReactionEffect reactionEffect = ReactionEffect.None)
+    public ChemicalReaction(ChemicalSubstance requiredSubstance, ChemicalSubstance outputSubstance = null, ChemicalSubstance additionalSubstance = null, ChemicalSubstance additionalOutputSubstance = null, ReactionAgent reactionAgent = ReactionAgent.None, ReactionEffect reactionEffect = ReactionEffect.None, bool worksInReverse = false)
     {
-        _inputElement = requiredElement;
-        _outputElement = outputElement;
-        _additionalInputElement = additionalElement;
-        _additionalOutputElement = additionalOutputElement;
-        _reactionAgent = reactionAgent;
-        _reactionEffect = reactionEffect;
+        _inputSubstance = requiredSubstance;
+        _outputSubstance = outputSubstance;
+        _additionalInputSubstance = additionalSubstance;
+        _additionalOutputSubstance = additionalOutputSubstance;
+        _agent = reactionAgent;
+        _effect = reactionEffect;
+        _worksInReverse = worksInReverse;
     }
 }

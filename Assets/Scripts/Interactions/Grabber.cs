@@ -11,9 +11,9 @@ public class Grabber : MonoBehaviour
     [SerializeField] private Transform _target;
     [SerializeField] private float _grabStability = 0.8f;
     [SerializeField] private float _moveSpeed = 0.125f;
-    [SerializeField] private float _zoomMultiplier = 0.0002f;
-    [SerializeField] private float _minZoomDistance = -0.3f;
-    [SerializeField] private float _maxZoomDistance = 1f;
+    [SerializeField] private float _zoomMultiplier = 0.0004f;
+    [SerializeField] private float _minZoomDistance = -0.2f;
+    [SerializeField] private float _maxZoomDistance = 0.7f;
 
     private void Awake()
     {
