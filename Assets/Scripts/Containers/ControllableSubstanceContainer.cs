@@ -1,18 +1,17 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(InputManager))]
 public class ControllableSubstanceContainer : SubstanceContainer
 {
+    [SerializeField] private InputManager _inputManager;
     [SerializeField] private ObjectSelector _selector;
 
     private void Start()
     {
-        InputManager inputManager = GetComponent<InputManager>();
-        inputManager.InteractWithObject.performed += Interact;
+        _inputManager.InteractWithObject.performed += TryInteractWithContainer;
     }
 
-    private void Interact(InputAction.CallbackContext context)
+    private void TryInteractWithContainer(InputAction.CallbackContext context)
     {
         if (_selector.TryGetSelectedComponent(out SubstanceContainer container))
             InteractWithContainer(ref container);

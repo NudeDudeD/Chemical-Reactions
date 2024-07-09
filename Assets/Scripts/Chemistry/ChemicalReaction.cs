@@ -34,11 +34,11 @@ public class ChemicalReaction : ScriptableObject
     public ReactionEffect Effect => _effect;
     public bool WorksInReverse => _worksInReverse;
 
-    public ChemicalReaction(ChemicalSubstance requiredSubstance, ChemicalSubstance outputSubstance = null, ChemicalSubstance additionalSubstance = null, ChemicalSubstance additionalOutputSubstance = null, ReactionAgent reactionAgent = ReactionAgent.None, ReactionEffect reactionEffect = ReactionEffect.None, bool worksInReverse = false)
+    public ChemicalReaction(ChemicalSubstance inputSubstance, ChemicalSubstance outputSubstance = null, ChemicalSubstance additionalInputSubstance = null, ChemicalSubstance additionalOutputSubstance = null, ReactionAgent reactionAgent = ReactionAgent.None, ReactionEffect reactionEffect = ReactionEffect.None, bool worksInReverse = false)
     {
-        _inputSubstance = requiredSubstance;
+        _inputSubstance = inputSubstance;
         _outputSubstance = outputSubstance;
-        _additionalInputSubstance = additionalSubstance;
+        _additionalInputSubstance = additionalInputSubstance;
         _additionalOutputSubstance = additionalOutputSubstance;
         _agent = reactionAgent;
         _effect = reactionEffect;

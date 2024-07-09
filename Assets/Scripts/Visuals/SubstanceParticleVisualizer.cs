@@ -10,6 +10,7 @@ public class SubstanceParticleVisualizer : SubstanceVisualizer
         _particleSystem = GetComponent<ParticleSystem>();
         _particleRenderer = _particleSystem.GetComponent<ParticleSystemRenderer>();
         _container.OnSubstanceChanged += Revisualize;
+        ((SubstanceExposedContainer)_container).OnSubstanceSpilled += Play;
     }
 
     private void StateClarification()
@@ -27,7 +28,7 @@ public class SubstanceParticleVisualizer : SubstanceVisualizer
         }
     }
 
-    public void Play()
+    private void Play()
     {
         _particleSystem.Play();
     }

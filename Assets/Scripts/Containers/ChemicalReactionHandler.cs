@@ -32,8 +32,8 @@ public class ChemicalReactionHandler : MonoBehaviour
         }
     }
 
-    public event Action OnReactionPerformed;
-    public event Action OnAgentChanged;
+    public event Action OnReactionPerformed = delegate { };
+    public event Action OnAgentChanged = delegate { };
 
     private void Awake()
     {

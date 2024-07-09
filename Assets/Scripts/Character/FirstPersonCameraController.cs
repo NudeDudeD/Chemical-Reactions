@@ -15,8 +15,8 @@ public class FirstPersonCameraController : MonoBehaviour
 
     private void Start()
     {
-        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         _rotationX = transform.rotation.eulerAngles.x;
         _rotationY = transform.rotation.eulerAngles.y;
