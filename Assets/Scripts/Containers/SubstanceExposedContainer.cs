@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class SubstanceExposedContainer : SubstanceContainer
 {
-    private static float _angleToSpill = 55f;
-    public event Action OnSubstanceSpilled = delegate { };
+    private static float _angleToLeak = 55f;
+    public event Action OnSubstanceLeaked = delegate { };
 
     private void FixedUpdate()
     {
-        if (Substance != null && Vector3.Angle(transform.up, Vector3.up) > _angleToSpill)
+        if (Substance != null && Vector3.Angle(transform.up, Vector3.up) > _angleToLeak)
         {
             Substance = null;
-            OnSubstanceSpilled.Invoke();
+            OnSubstanceLeaked.Invoke();
         }
     }
 }

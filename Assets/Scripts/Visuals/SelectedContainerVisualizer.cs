@@ -4,10 +4,11 @@ using TMPro;
 public class SelectedContainerVisualizer : SubstanceVisualizer
 {
     [SerializeField] private ObjectSelector _selector;
-    [SerializeField] private TMP_Text _tmpText;
+    private TMP_Text _tmpText;
 
     private void Awake()
     {
+        _tmpText = GetComponent<TMP_Text>();
         _selector.OnObjectChanged += UpdateObject;
     }
 
@@ -15,10 +16,13 @@ public class SelectedContainerVisualizer : SubstanceVisualizer
     {
         string text;
 
+        if (_container == null)
+            return;
+
         if (_container.Substance == null)
             text = "<Container is empty>";
         else
-            text = "[" + _container.Substance.name + "]";
+            text = "[" + _container.Substance.Name + "]";
 
         _tmpText.text = text;
     }

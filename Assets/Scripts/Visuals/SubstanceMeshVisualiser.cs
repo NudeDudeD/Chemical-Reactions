@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(Renderer))]
 public class SubstanceMeshVisualiser : SubstanceVisualizer
 {
     private Renderer _substanceRenderer;
@@ -12,7 +13,7 @@ public class SubstanceMeshVisualiser : SubstanceVisualizer
 
     protected override void Revisualize()
     {
-        ChemicalSubstance currentSubstance = _container.Substance;
+        Substance currentSubstance = _container.Substance;
         if (currentSubstance == null)
         {
             _substanceRenderer.enabled = false;
@@ -20,7 +21,7 @@ public class SubstanceMeshVisualiser : SubstanceVisualizer
         else
         {
             _substanceRenderer.enabled = true;
-            _substanceRenderer.sharedMaterial = currentSubstance.Material;
+            _substanceRenderer.material = DataStorage.GetMaterial(currentSubstance);
         }
     }
 }

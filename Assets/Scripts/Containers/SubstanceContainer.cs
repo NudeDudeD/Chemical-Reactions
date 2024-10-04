@@ -3,12 +3,27 @@ using UnityEngine;
 
 public class SubstanceContainer : MonoBehaviour
 {
-    [SerializeField] protected ChemicalSubstance _substance;
+    [SerializeField] protected Substance _substance;
     public event Action OnSubstanceChanged = delegate { };
 
-    public ChemicalSubstance Substance
+    protected virtual void Awake()
     {
-        get => _substance;
+        if (Substance == null)
+            return;
+        
+        Substance substance = DataStorage.GetSubstance(Substance);
+        Substance = substance;
+    }
+
+    public Substance Substance
+    {
+        get
+        {
+            if (_substance == null || _substance.Name == null || _substance.Name.Length == 0)
+                return null;
+            else
+                return _substance;
+        }
         protected set
         {
             _substance = value;
@@ -32,28 +47,28 @@ public class SubstanceContainer : MonoBehaviour
 
     protected virtual void RequestSubstanceOutput(ref SubstanceContainer interactableContainer)
     {
-        ChemicalSubstance requestedSubstance = interactableContainer.GetOutputRequest();
+        Substance requestedSubstance = interactableContainer.GetOutputRequest();
         if (requestedSubstance != null)
             Substance = requestedSubstance;
     }
 
-    public virtual bool GetInputRequest(ChemicalSubstance interactorSubstance)
+    public virtual bool GetInputRequest(Substance interactorSubstance)
     {
         if (Substance == null)
         {
             Substance = interactorSubstance;
             return true;
         }
-        else
-            return false;
+
+        return false;
     }
 
-    public virtual ChemicalSubstance GetOutputRequest()
+    public virtual Substance GetOutputRequest()
     {
         if (Substance == null)
             return null;
 
-        ChemicalSubstance retrievedSubstance = Substance; 
+        Substance retrievedSubstance = Substance; 
         Substance = null;
         return retrievedSubstance;
     }

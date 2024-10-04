@@ -1,6 +1,6 @@
 ﻿public class InfiniteSubstanceContainer : SubstanceContainer
 {
-    public override ChemicalSubstance GetOutputRequest()
+    public override Substance GetOutputRequest()
     {
         return Substance;
     }

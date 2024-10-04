@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(ObjectSelector), typeof(InputManager))]
+[RequireComponent(typeof(ObjectSelector), typeof(PlayerInputHolder))]
 public class SimpleInteractor : MonoBehaviour
 {
     private ObjectSelector _selector;
@@ -13,7 +13,7 @@ public class SimpleInteractor : MonoBehaviour
 
     private void Start()
     {
-        InputManager inputManager = GetComponent<InputManager>();
+        PlayerInputHolder inputManager = GetComponent<PlayerInputHolder>();
         inputManager.InteractWithObject.performed += Interact;
     }
 

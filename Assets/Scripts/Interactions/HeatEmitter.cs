@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class HeatEmitter : MonoBehaviour, ISimpleInteractable
 {
-    [SerializeField] private ChemicalReactionHandler _receiver;
+    [SerializeField] private ReactionHandler _receiver;
     private bool _isActivated;
 
     public event Action OnActiveSwitch = delegate { };
@@ -12,6 +12,6 @@ public class HeatEmitter : MonoBehaviour, ISimpleInteractable
     {
         _isActivated = !_isActivated;
         OnActiveSwitch.Invoke();
-        _receiver.Agent = _isActivated ? ChemicalReaction.ReactionAgent.Heat : ChemicalReaction.ReactionAgent.None;
+        _receiver.Agent = _isActivated ? Reaction.ReactionAgent.Heat : Reaction.ReactionAgent.None;
     }
 }

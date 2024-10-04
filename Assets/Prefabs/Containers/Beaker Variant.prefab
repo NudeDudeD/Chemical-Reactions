@@ -31,7 +31,7 @@ PrefabInstance:
     - target: {fileID: 4816881199890291951, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
       propertyPath: _container
       value: 
-      objectReference: {fileID: 2178739789373425076}
+      objectReference: {fileID: 6870588774901717284}
     - target: {fileID: 4816881199890291951, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
       propertyPath: _substanceHolderObject
       value: 
@@ -81,17 +81,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
---- !u!114 &5402417032346795581 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4816881199890291951, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
-  m_PrefabInstance: {fileID: 585963027090318034}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8783c362e1b68e43a8716309c50b49c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &7972451498439997046 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7386488471355970724, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
@@ -213,7 +202,7 @@ PrefabInstance:
       addedObject: {fileID: 3536293005275498493}
     - targetCorrespondingSourceObject: {fileID: 9028627854349766800, guid: 24c728c68968f6447b856666f27564a5, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2178739789373425076}
+      addedObject: {fileID: 6870588774901717284}
     - targetCorrespondingSourceObject: {fileID: 1763347166810072313, guid: 24c728c68968f6447b856666f27564a5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6568075045292036241}
@@ -235,7 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7738d72a4176c8045b0e851cc156a64b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _container: {fileID: 2178739789373425076}
+  _container: {fileID: 6870588774901717284}
 --- !u!4 &7220395664163828575 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8505032083176376874, guid: 24c728c68968f6447b856666f27564a5, type: 3}
@@ -285,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 640502b4c79ff034f90cc9cbeeb66c44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2178739789373425076
+--- !u!114 &6870588774901717284
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -297,5 +286,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 502e86a978ab2184eb7333ce6190b657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _substance: {fileID: 0}
-  _spillVisualizer: {fileID: 5402417032346795581}
+  _substance:
+    _name: 
+    _state: 0

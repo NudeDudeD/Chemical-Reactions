@@ -3,12 +3,13 @@ using UnityEngine.InputSystem;
 
 public class ControllableSubstanceContainer : SubstanceContainer
 {
-    [SerializeField] private InputManager _inputManager;
+    [SerializeField] private PlayerInputHolder _inputHolder;
     [SerializeField] private ObjectSelector _selector;
 
-    private void Start()
+    protected override void Awake()
     {
-        _inputManager.InteractWithObject.performed += TryInteractWithContainer;
+        base.Awake();
+        _inputHolder.InteractWithObject.performed += TryInteractWithContainer;
     }
 
     private void TryInteractWithContainer(InputAction.CallbackContext context)

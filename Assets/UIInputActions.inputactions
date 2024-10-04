@@ -1,0 +1,51 @@
+{
+    "name": "UIInputActions",
+    "maps": [
+        {
+            "name": "Menu",
+            "id": "68985c1f-00c7-46a4-943c-a9a3dc7b2281",
+            "actions": [
+                {
+                    "name": "Switch",
+                    "type": "Button",
+                    "id": "0c615008-72ca-404c-b750-ce32e2a14aa9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7d88f7bc-1f9e-46ad-87fe-0f49eed93462",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse and Keyboard",
+                    "action": "Switch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Mouse and Keyboard",
+            "bindingGroup": "Mouse and Keyboard",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

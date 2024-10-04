@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(ParticleSystem), typeof(ParticleSystemRenderer))]
 public class SubstanceParticleVisualizer : SubstanceVisualizer
 {
     private ParticleSystem _particleSystem;
@@ -10,17 +11,17 @@ public class SubstanceParticleVisualizer : SubstanceVisualizer
         _particleSystem = GetComponent<ParticleSystem>();
         _particleRenderer = _particleSystem.GetComponent<ParticleSystemRenderer>();
         _container.OnSubstanceChanged += Revisualize;
-        ((SubstanceExposedContainer)_container).OnSubstanceSpilled += Play;
+        ((SubstanceExposedContainer)_container).OnSubstanceLeaked += Play;
     }
 
     private void StateClarification()
     {
         switch (_container.Substance.State)
         {
-            case ChemicalSubstance.MatterState.Liquid:
+            case Substance.MatterState.Liquid:
                 LiquidSetup();
                 break;
-            case ChemicalSubstance.MatterState.Solid:
+            case Substance.MatterState.Solid:
                 SolidSetup();
                 break;
             default:
@@ -47,12 +48,12 @@ public class SubstanceParticleVisualizer : SubstanceVisualizer
 
     protected override void Revisualize()
     {
-        ChemicalSubstance substance = _container.Substance;
+        Substance substance = _container.Substance;
         if (substance != null)
         {
             StateClarification();
-            _particleRenderer.sharedMaterial = substance.Material;
-            _particleRenderer.trailMaterial = substance.Material;
+            _particleRenderer.material = DataStorage.GetMaterial(substance); 
+            _particleRenderer.trailMaterial = DataStorage.GetMaterial(substance);
         }
     }
 }

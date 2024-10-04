@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(InputManager), typeof(ObjectSelector))]
+[RequireComponent(typeof(PlayerInputHolder), typeof(ObjectSelector))]
 public class Grabber : MonoBehaviour
 {
     private ObjectSelector _selector;
@@ -22,7 +22,7 @@ public class Grabber : MonoBehaviour
 
     private void Start()
     {
-        InputManager inputManager = GetComponent<InputManager>();
+        PlayerInputHolder inputManager = GetComponent<PlayerInputHolder>();
         inputManager.GrabAndRelease.performed += GrabReleaseAction;
         inputManager.ZoomGrabbed.performed += ZoomInOut;
     }
