@@ -1,70 +1,126 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
 public static class DataStorage
 {
-    private const string _substancesInformationFileName = "substancesInformation.json";
-    private const string _reactionsFileName = "reactions.json";
-    private static string _substancesInformationPath;
-    private static string _reactionsPath;
+    public class Storage<T> where T : IComparable<T>
+    {
+        public delegate void ChangedAction(T storable);
+        private string _path;
+        private List<T> _storage = new List<T>();
 
-    private static List<Pair<Substance, MaterialSettings>> _substancesInformation;
-    private static List<Reaction> _reactions;
+        public event ChangedAction OnElementAdded;
+        public event ChangedAction OnElementRemoved;
 
-    public static List<Pair<Substance, MaterialSettings>> SubstancesInformation => _substancesInformation;
-    public static List<Reaction> Reactions => _reactions;
+        public T Get(T storable) => _storage.Find(t => t.CompareTo(storable) > 0);
+        public List<T> List => _storage;
+
+        public Storage(string filePath)
+        {
+            _path = Path.Combine(Application.persistentDataPath, filePath);
+        }
+
+        public void Load()
+        {
+            _storage = JsonDataLoader.LoadList<T>(_path);
+        }
+
+        public void Save()
+        {
+            JsonDataLoader.SaveList(_storage, _path);
+        }
+
+        public bool Add(T storable)
+        {
+            if (Get(storable) != null)
+                return false;
+
+            _storage.Add(storable);
+            OnElementAdded(storable);
+            return true;
+        }
+
+        public bool Remove(T storable)
+        {
+            if (Get(storable) != null)
+                return false;
+
+            _storage.Remove(storable);
+            OnElementRemoved(storable);
+            return true;
+        }
+    }
+
+    public class PairedStorage<T1, T2> where T1 : IComparable<T1>
+    {
+        public delegate void ChangedAction(T1 key, T2 value);
+        private readonly string _path;
+        private List<Pair<T1, T2>> _storage = new List<Pair<T1, T2>>();
+
+        public event ChangedAction OnElementAdded;
+        public event ChangedAction OnElementRemoved;
+
+        public List<Pair<T1, T2>> List => _storage;
+        public Pair<T1, T2> Find(T1 key) => _storage.Find(p => p.Key.CompareTo(key) > 0);
+        public bool Exists(T1 key) => Find(key) != null;
+        public T2 FindValue(T1 key)
+        {
+            Pair<T1, T2> pair = Find(key);
+            return pair == null ? default : pair.Value;
+        }
+
+        public PairedStorage(string filePath)
+        {
+            _path = Path.Combine(Application.persistentDataPath, filePath);
+        }
+
+        public void Load()
+        {
+            _storage = JsonDataLoader.LoadList<Pair<T1, T2>>(_path);
+        }
+
+        public void Save()
+        {
+            JsonDataLoader.SaveList(_storage, _path);
+        }
+
+        public bool Add(T1 key, T2 value)
+        {
+            if (Find(key) != null)
+                return false;
+
+            Pair<T1, T2> pair = new Pair<T1, T2>(key, value);
+            _storage.Add(pair);
+            OnElementAdded(pair.Key, pair.Value);
+            return true;
+        }
+
+        public bool Remove(T1 key)
+        {
+            Pair<T1, T2> pair = Find(key);
+            if (pair == null)
+                return false;
+
+            _storage.Remove(pair);
+            OnElementRemoved(pair.Key, pair.Value);
+            return true;
+        }
+    }
+
+    private static PairedStorage<Substance, MaterialSettings> _substanceInfo;
+    private static Storage<Reaction> _reactions;
+
+    public static PairedStorage<Substance, MaterialSettings> SubstanceInfo => _substanceInfo;
+    public static Storage<Reaction> Reactions => _reactions;
 
     public static void Initialize()
     {
-        _substancesInformationPath = GetPath(_substancesInformationFileName);
-        _reactionsPath = GetPath(_reactionsFileName);
+        _substanceInfo = new PairedStorage<Substance, MaterialSettings>("substancesInformation.json");
+        _reactions = new Storage<Reaction>("reactions.json");
 
-        Load();
-    }
-
-    public static void Save()
-    {
-        JsonDataLoader.SaveList(_substancesInformation, _substancesInformationPath);
-        JsonDataLoader.SaveList(_reactions, _reactionsPath);
-    }
-
-    public static void Load()
-    {
-        _substancesInformation = JsonDataLoader.LoadList<Pair<Substance, MaterialSettings>>(_substancesInformationPath);
-        foreach (Pair<Substance, MaterialSettings> pair in _substancesInformation)
-            pair.Value.Initialize();
-
-        _reactions = JsonDataLoader.LoadList<Reaction>(_reactionsPath);
-    }
-
-    private static string GetPath(string fileName) => Path.Combine(Application.persistentDataPath, fileName);
-
-    private static Pair<Substance, MaterialSettings> GetPair(Substance substance) => SubstancesInformation.Find(pair => pair.Key.Compare(substance));
-
-    public static Substance GetSubstance(Substance substance)
-    {
-        Pair<Substance, MaterialSettings> pair = GetPair(substance);
-        if (pair != null)
-            return pair.Key;
-        return null;
-    }
-
-    public static Material GetMaterial(Substance substance)
-    {
-        Pair<Substance, MaterialSettings> pair = GetPair(substance);
-        if (pair != null)
-            return pair.Value.Material;
-        return null;
-    }
-
-    public static bool AddSubstance(Substance substance, MaterialSettings materialSettings)
-    {
-        Pair<Substance, MaterialSettings> pair = new Pair<Substance, MaterialSettings>(substance, materialSettings);
-        if (GetPair(substance) != null)
-            return false;
-
-        _substancesInformation.Add(pair);
-        return true;
+        _substanceInfo.Load();
+        _reactions.Load();
     }
 }

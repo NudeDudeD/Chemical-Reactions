@@ -1,39 +1,25 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class IconStorage : MonoBehaviour
+public static class IconStorage
 {
-    [SerializeField] private Renderer _renderer;
-    [SerializeField] private Camera _renderingCamera;
+    private static List<Pair<Substance, Texture>> _substanceTextures = new List<Pair<Substance, Texture>>();
 
-    private static IconStorage _instance;
-    private static List<Pair<Substance, Texture>> _textures = new List<Pair<Substance, Texture>>();
-
-    public static Texture GetTexture(Substance substance) => _textures.Find(p => p.Key.Compare(substance))?.Value;
+    public static Texture GetTexture(Substance substance) => _substanceTextures.Find(p => p.Key.CompareTo(substance) > 0)?.Value;
 
     public static void Initialize()
     {
-        foreach (Pair<Substance, MaterialSettings> pair in DataStorage.SubstancesInformation)
-        {
-            _instance._renderer.sharedMaterial = pair.Value.Material;
-            _instance._renderingCamera.Render();
+        DataStorage.SubstanceInfo.OnElementAdded += CreateIcon;
 
-            RenderTexture.active = _instance._renderingCamera.activeTexture;
-
-            int width = RenderTexture.active.width;
-            int height = RenderTexture.active.height;
-            Texture2D texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
-            texture.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-            texture.Apply();
-            RenderTexture.active = null;
-
-            Pair<Substance, Texture> textureData = new Pair<Substance, Texture>(pair.Key, texture);
-            _textures.Add(textureData);
-        }
+        foreach (Pair<Substance, MaterialSettings> pair in DataStorage.SubstanceInfo.List)
+            CreateIcon(pair.Key, pair.Value);
     }
 
-    private void Awake()
+    private static void CreateIcon(Substance substance, MaterialSettings materialSettings)
     {
-        _instance = this;
+        Texture2D texture = IconRenderer.RenderCameraImage(materialSettings.Material);
+
+        Pair<Substance, Texture> textureData = new Pair<Substance, Texture>(substance, texture);
+        _substanceTextures.Add(textureData);
     }
 }

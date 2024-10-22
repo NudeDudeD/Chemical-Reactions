@@ -16,14 +16,19 @@ public class MaterialSettings
     [SerializeField] private bool _emissionEnabled;
     [SerializeField] private bool _transparencyEnabled;
 
-    public Material Material => _material;
-
-    public Color Albedo
+    public Material Material
     {
         get
         {
-            return _albedo;
+            if (_material == null)
+                Initialize();
+            return _material;
         }
+    }
+
+    public Color Albedo
+    {
+        get => _albedo;
         set
         {
             _albedo = value;
@@ -33,10 +38,7 @@ public class MaterialSettings
 
     public Color Emission
     {
-        get
-        {
-            return _emission;
-        }
+        get => _emission;
         set
         {
             _emission = value;
@@ -46,10 +48,7 @@ public class MaterialSettings
 
     public float Metallic
     {
-        get
-        {
-            return _metallic;
-        }
+        get => _metallic;
         set
         {
             _metallic = value;
@@ -59,10 +58,7 @@ public class MaterialSettings
 
     public float Smoothness
     {
-        get
-        {
-            return _smoothness;
-        }
+        get => _smoothness;
         set
         {
             _smoothness = value;
@@ -72,10 +68,7 @@ public class MaterialSettings
 
     public bool SpecularHighlightsEnabled
     {
-        get
-        {
-            return _specularHighlightsEnabled;
-        }
+        get => _specularHighlightsEnabled;
         set
         {
             _specularHighlightsEnabled = value;
@@ -85,10 +78,7 @@ public class MaterialSettings
 
     public bool ReflectionsEnabled
     {
-        get
-        {
-            return _reflectionsEnabled;
-        }
+        get => _reflectionsEnabled;
         set
         {
             _reflectionsEnabled = value;
@@ -98,10 +88,7 @@ public class MaterialSettings
 
     public bool EmissionEnabled
     {
-        get
-        {
-            return _emissionEnabled;
-        }
+        get => _emissionEnabled;
         set
         {
             _emissionEnabled = value;
@@ -111,10 +98,7 @@ public class MaterialSettings
 
     public bool TransparencyEnabled
     {
-        get
-        {
-            return _transparencyEnabled;
-        }
+        get => _transparencyEnabled;
         set
         {
             _transparencyEnabled = value;
@@ -124,7 +108,6 @@ public class MaterialSettings
 
     public MaterialSettings(Color albedo, float metallic, float smoothness, bool emissionEnabled = false, Color emission = default, bool transparencyEnabled = false, bool specularHighlightsEnabled = true, bool reflectionsEnabled = true)
     {
-        _material = null;
         _albedo = albedo;
         _emission = emission;
         _metallic = metallic;
@@ -174,9 +157,7 @@ public class MaterialSettings
             _material.SetColor("_EmissionColor", _emission);
         }
         else
-        {
             _material.DisableKeyword("_EMISSION");
-        }
     }
 
     private void SetTransparency()

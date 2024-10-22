@@ -52,8 +52,8 @@ public class SubstanceParticleVisualizer : SubstanceVisualizer
         if (substance != null)
         {
             StateClarification();
-            _particleRenderer.material = DataStorage.GetMaterial(substance); 
-            _particleRenderer.trailMaterial = DataStorage.GetMaterial(substance);
+            _particleRenderer.material = DataStorage.SubstanceInfo.FindValue(substance).Material; 
+            _particleRenderer.trailMaterial = DataStorage.SubstanceInfo.FindValue(substance).Material;
         }
     }
 }

@@ -13,15 +13,15 @@ public class SubstanceMeshVisualiser : SubstanceVisualizer
 
     protected override void Revisualize()
     {
-        Substance currentSubstance = _container.Substance;
-        if (currentSubstance == null)
+        Substance substance = _container.Substance;
+        if (substance == null)
         {
             _substanceRenderer.enabled = false;
         }
         else
         {
             _substanceRenderer.enabled = true;
-            _substanceRenderer.material = DataStorage.GetMaterial(currentSubstance);
+            _substanceRenderer.material = DataStorage.SubstanceInfo.FindValue(substance)?.Material;
         }
     }
 }

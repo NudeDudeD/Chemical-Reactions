@@ -3,9 +3,9 @@ using UnityEngine;
 [RequireComponent(typeof(UITransitioner))]
 public class UITransitionerPreload : MonoBehaviour
 {
-    private void Awake()
+    private void Start()
     {
         UITransitioner transitioner = GetComponent<UITransitioner>();
-        transitioner.SetActive();
+        transitioner.SetAsActiveTransitioner();
     }
 }

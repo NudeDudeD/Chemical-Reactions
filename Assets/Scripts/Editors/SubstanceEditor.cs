@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,18 +13,25 @@ public class SubstanceEditor : MonoBehaviour
     private void OnEnable()
     {
         ResetParameters();
-        CustomMaterialRender.SetActive(true);
+        IconRenderer.SetActive(true);
     }
 
     private void OnDisable()
     {
-        CustomMaterialRender.SetActive(false);
+        IconRenderer.SetActive(false);
     }
 
     private void ResetParameters()
     {
         _materialSettings = new MaterialSettings(Color.black, 0f, 0f);
-        CustomMaterialRender.Material = _materialSettings.Material;
+        IconRenderer.Material = _materialSettings.Material;
+    }
+
+    private float ConvertColorComponent(string colorComponent)
+    {
+        if (colorComponent.Length == 0)
+            return 0f;
+        return Mathf.Clamp01(float.Parse(colorComponent) / 255f);
     }
 
     public void Create()
@@ -35,7 +43,7 @@ public class SubstanceEditor : MonoBehaviour
         }
 
         Substance substance = new Substance(_substanceName, _matterState);
-        if (!DataStorage.AddSubstance(substance, _materialSettings))
+        if (!DataStorage.SubstanceInfo.Add(substance, _materialSettings))
         {
             MessageBox.Show("Error", "Error creating a substance.");
             return;
@@ -76,9 +84,9 @@ public class SubstanceEditor : MonoBehaviour
         _materialSettings.Albedo = new Color(albedo.r, albedo.g, albedo.b, alphaComponent);
     }
 
-    public void SetMetallic(string metallic) => _materialSettings.Metallic = metallic.Length == 0 ? 0 : Mathf.Abs(float.Parse(metallic));
+    public void SetMetallic(float metallic) => _materialSettings.Metallic = metallic;
 
-    public void SetSmoothness(string smoothness) => _materialSettings.Smoothness = smoothness.Length == 0 ? 0 : Mathf.Abs(float.Parse(smoothness));
+    public void SetSmoothness(float smoothness) => _materialSettings.Smoothness = smoothness;
 
     public void SetSpecularHighlightsEnabled(bool isEnabled) => _materialSettings.SpecularHighlightsEnabled = isEnabled;
 
@@ -102,12 +110,5 @@ public class SubstanceEditor : MonoBehaviour
     {
         Color emission = _materialSettings.Emission;
         _materialSettings.Emission = new Color(emission.r, emission.g, ConvertColorComponent(blue));
-    }
-
-    private float ConvertColorComponent(string colorComponent)
-    {
-        if (colorComponent.Length == 0)
-            return 0f;
-        return Mathf.Clamp01(float.Parse(colorComponent) / 255f);
     }
 }

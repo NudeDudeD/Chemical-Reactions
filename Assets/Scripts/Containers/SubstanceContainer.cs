@@ -1,34 +1,44 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SubstanceContainer : MonoBehaviour
 {
+    public delegate void ContainerAction();
+
     [SerializeField] protected Substance _substance;
-    public event Action OnSubstanceChanged = delegate { };
+    public event ContainerAction OnSubstanceChanged;
 
     protected virtual void Awake()
     {
-        if (Substance == null)
+        DataStorage.SubstanceInfo.OnElementRemoved += OnSubstanceRemoved;
+
+        if (_substance == null || _substance.Name == null || _substance.Name.Length == 0)
+        {
+            Substance = null; 
             return;
-        
-        Substance substance = DataStorage.GetSubstance(Substance);
-        Substance = substance;
+        }
+
+        Pair<Substance, MaterialSettings> pair = DataStorage.SubstanceInfo.Find(Substance);
+        if (pair != null)
+            Substance = pair.Key;
+        else
+            Substance = null;
     }
 
     public Substance Substance
     {
-        get
-        {
-            if (_substance == null || _substance.Name == null || _substance.Name.Length == 0)
-                return null;
-            else
-                return _substance;
-        }
+        get => _substance;
+
         protected set
         {
             _substance = value;
             OnSubstanceChanged.Invoke();
         }
+    }
+
+    protected void OnSubstanceRemoved(Substance substance, MaterialSettings materialSettings)
+    {
+        if (substance == _substance)
+            Substance = null;
     }
 
     protected virtual void InteractWithContainer(ref SubstanceContainer interactableContainer) 

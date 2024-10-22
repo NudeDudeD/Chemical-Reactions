@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [System.Serializable]
-public class Reaction
+public class Reaction : IComparable<Reaction>
 {
     public enum ReactionAgent
     {
@@ -40,5 +41,11 @@ public class Reaction
         _agent = reactionAgent;
         _effect = reactionEffect;
         _worksInReverse = worksInReverse;
+    }
+
+    public int CompareTo(Reaction other)
+    {
+        //Coming sometime
+        return 0;
     }
 }

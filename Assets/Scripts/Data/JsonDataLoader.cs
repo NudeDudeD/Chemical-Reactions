@@ -36,14 +36,8 @@ public static class JsonDataLoader
         reader.Close();
 
         ListHolder<T> holder;
-        try
-        {
-            holder = JsonUtility.FromJson<ListHolder<T>>(json);
-            return holder.List;
-        }
-        catch (System.ArgumentException)
-        {
-            throw;
-        }
+
+        holder = JsonUtility.FromJson<ListHolder<T>>(json);
+        return holder.List;
     }
 }

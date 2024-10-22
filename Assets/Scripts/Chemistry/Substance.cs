@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [System.Serializable]
-public class Substance
+public class Substance : IComparable<Substance>
 {
     [System.Serializable]
     public enum MatterState
@@ -23,5 +24,5 @@ public class Substance
         _state = state;
     }
 
-    public bool Compare(Substance other) => _name == other._name && _state == other._state;
+    public int CompareTo(Substance other) => _name == other._name && _state == other._state ? 1 : 0;
 }
