@@ -1,20 +1,33 @@
+using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public static class SceneSwitcher
 {
     private const string _laboratorySceneName = "Laboratory Scene";
     private const string _mainMenuSceneName = "Main Menu";
+    public static event Action<string> OnSceneLoaded;
 
-    public static void LoadMainMenuStatic()
+    private static void LoadScene(string sceneName)
     {
-        SceneManager.LoadScene(_mainMenuSceneName, LoadSceneMode.Single);
+        AsyncOperation sceneLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+        sceneLoad.completed += (AsyncOperation obj) => OnSceneLoaded.Invoke(sceneName);
     }
 
-    public static void LoadLaboratoryStatic() 
+    public static void LoadMainMenu()
     {
-        DataStorage.Initialize();
+        LoadScene(_mainMenuSceneName);
+    }
+
+    public static void LoadLaboratory() 
+    {
+        ChemistryStorage.Initialize();
         IconStorage.Initialize();
+        UIInputHolder.Initialize();
+        PlayerInputHolder.Initialize();
 
-        SceneManager.LoadSceneAsync(_laboratorySceneName, LoadSceneMode.Single);
+        LoadScene(_laboratorySceneName);
     }
+
+    public static void Exit() => Application.Quit();
 }

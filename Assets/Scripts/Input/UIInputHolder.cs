@@ -1,26 +1,26 @@
-﻿using UnityEngine;
+﻿using System;
 using UnityEngine.InputSystem;
 
-public class UIInputHolder : MonoBehaviour
+public static class UIInputHolder
 {
-    private UIInputActions _actions;
-    private InputAction _switch;
+    private static UIInputActions _actions;
+    public static event Action Switch = delegate { };
 
-    public InputAction Switch => _switch;
-
-    private void Awake()
+    public static void Initialize()
     {
+        if (_actions != null)
+        {
+            Switch = delegate { };
+            _actions.Menu.Switch.performed -= (InputAction.CallbackContext context) => Switch.Invoke();
+            _actions.Dispose();
+        }
+
         _actions = new UIInputActions();
-        _switch = _actions.Menu.Switch;
-    }
-
-    private void OnEnable()
-    {
+        _actions.Menu.Switch.performed += (InputAction.CallbackContext context) => Switch.Invoke();
         _actions.Enable();
     }
 
-    private void OnDisable()
-    {
-        _actions.Disable();
-    }
+    public static void Enable() => _actions.Enable();
+
+    public static void Disable() => _actions.Disable();
 }

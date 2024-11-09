@@ -229,9 +229,9 @@ MonoBehaviour:
   _targetGraphic: {fileID: 2704660573496761822}
   _colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0.6862745}
-    m_HighlightedColor: {r: 0.28235295, g: 0.36862746, b: 0.84313726, a: 0.6862745}
+    m_HighlightedColor: {r: 0.23743254, g: 0.30998132, b: 0.709, a: 0.6862745}
     m_PressedColor: {r: 0.15413791, g: 0.2836138, b: 0.447, a: 1}
-    m_SelectedColor: {r: 0.44854903, g: 0.5092549, b: 0.84313726, a: 0.6862745}
+    m_SelectedColor: {r: 0.3348837, g: 0.4372092, b: 1, a: 0.6862745}
     m_DisabledColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 0.6862745}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1

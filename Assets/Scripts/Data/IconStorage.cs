@@ -3,15 +3,17 @@ using UnityEngine;
 
 public static class IconStorage
 {
-    private static List<Pair<Substance, Texture>> _substanceTextures = new List<Pair<Substance, Texture>>();
+    private static List<Pair<Substance, Texture>> _substanceTextures;
 
     public static Texture GetTexture(Substance substance) => _substanceTextures.Find(p => p.Key.CompareTo(substance) > 0)?.Value;
 
     public static void Initialize()
     {
-        DataStorage.SubstanceInfo.OnElementAdded += CreateIcon;
+        _substanceTextures = new List<Pair<Substance, Texture>>();
 
-        foreach (Pair<Substance, MaterialSettings> pair in DataStorage.SubstanceInfo.List)
+        ChemistryStorage.SubstanceInfo.OnElementAdded += CreateIcon;
+
+        foreach (Pair<Substance, MaterialSettings> pair in ChemistryStorage.SubstanceInfo.List)
             CreateIcon(pair.Key, pair.Value);
     }
 

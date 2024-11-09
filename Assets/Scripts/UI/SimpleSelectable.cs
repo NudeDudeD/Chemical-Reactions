@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -13,16 +14,14 @@ public class SimpleSelectable : MonoBehaviour, IPointerEnterHandler, IPointerExi
         Disabled
     }
 
-    public delegate void SelectableAction(SimpleSelectable sender);
-
     [SerializeField] private Graphic _targetGraphic;
     [SerializeField] private ColorBlock _colors;
     
     private State _state;
     private bool _selected;
     private bool _pointerDown;
-    public event SelectableAction OnSelect;
-    public event SelectableAction OnDeselect;
+    public event Action<SimpleSelectable> OnSelect;
+    public event Action<SimpleSelectable> OnDeselect;
 
     public bool Interactable
     {
@@ -60,7 +59,7 @@ public class SimpleSelectable : MonoBehaviour, IPointerEnterHandler, IPointerExi
         UpdateGraphics(true);
     }
 
-    private void UpdateGraphics(bool instant)
+    private void UpdateGraphics(bool instant = false)
     {
         switch (_state)
         {
@@ -92,7 +91,7 @@ public class SimpleSelectable : MonoBehaviour, IPointerEnterHandler, IPointerExi
         if (_state != State.Disabled)
         { 
             _state = State.Highlighted;
-            UpdateGraphics(false);
+            UpdateGraphics();
         }
     }
 
@@ -102,7 +101,7 @@ public class SimpleSelectable : MonoBehaviour, IPointerEnterHandler, IPointerExi
         if (_state != State.Disabled)
         {
             _state = State.Normal;
-            UpdateGraphics(false);
+            UpdateGraphics();
         }
     }
 
@@ -110,16 +109,18 @@ public class SimpleSelectable : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         if (eventData.button != PointerEventData.InputButton.Left || _state == State.Disabled)
             return;
+
         _state = State.Pressed;
-        UpdateGraphics(false);
+        UpdateGraphics();
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnPointerUp(PointerEventData eventData) //this damn method ALSO triggers whenever the cursor is MOVED after press, why Unity?
     {
-        if (eventData.button != PointerEventData.InputButton.Left || !_pointerDown || _state == State.Disabled)
+        if (eventData.button != PointerEventData.InputButton.Left || eventData.dragging || !_pointerDown || _state == State.Disabled )
             return;
+
         Selected = !Selected;
         _state = State.Highlighted;
-        UpdateGraphics(false);
+        UpdateGraphics();
     }
 }

@@ -21,7 +21,7 @@ public class SubstanceMeshVisualiser : SubstanceVisualizer
         else
         {
             _substanceRenderer.enabled = true;
-            _substanceRenderer.material = DataStorage.SubstanceInfo.FindValue(substance)?.Material;
+            _substanceRenderer.material = ChemistryStorage.SubstanceInfo.FindValue(substance)?.Material;
         }
     }
 }

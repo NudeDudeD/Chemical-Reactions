@@ -1,15 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class SubstanceContainer : MonoBehaviour
 {
-    public delegate void ContainerAction();
-
     [SerializeField] protected Substance _substance;
-    public event ContainerAction OnSubstanceChanged;
+    public event Action OnSubstanceChanged;
 
     protected virtual void Awake()
     {
-        DataStorage.SubstanceInfo.OnElementRemoved += OnSubstanceRemoved;
+        ChemistryStorage.SubstanceInfo.OnElementRemoved += OnSubstanceRemoved;
 
         if (_substance == null || _substance.Name == null || _substance.Name.Length == 0)
         {
@@ -17,7 +16,7 @@ public class SubstanceContainer : MonoBehaviour
             return;
         }
 
-        Pair<Substance, MaterialSettings> pair = DataStorage.SubstanceInfo.Find(Substance);
+        Pair<Substance, MaterialSettings> pair = ChemistryStorage.SubstanceInfo.Find(Substance);
         if (pair != null)
             Substance = pair.Key;
         else

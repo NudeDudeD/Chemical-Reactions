@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(ObjectSelector), typeof(PlayerInputHolder))]
+[RequireComponent(typeof(ObjectSelector))]
 public class SimpleInteractor : MonoBehaviour
 {
     private ObjectSelector _selector;
@@ -13,11 +13,10 @@ public class SimpleInteractor : MonoBehaviour
 
     private void Start()
     {
-        PlayerInputHolder inputManager = GetComponent<PlayerInputHolder>();
-        inputManager.InteractWithObject.performed += Interact;
+        PlayerInputHolder.InteractWithObject += Interact;
     }
 
-    private void Interact(InputAction.CallbackContext context)
+    private void Interact()
     {
         if (_selector.TryGetSelectedComponent(out ISimpleInteractable simpleInteractable))
             simpleInteractable.Interact();

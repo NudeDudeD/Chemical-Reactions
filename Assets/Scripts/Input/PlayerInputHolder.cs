@@ -1,36 +1,47 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputHolder : MonoBehaviour
+public static class PlayerInputHolder
 {
-    private PlayerInputActions _actions;
-    private InputAction _rotatePlayer;
-    private InputAction _grabAndRelease;
-    private InputAction _zoomGrabbed;
-    private InputAction _interactWithObject;
+    private static PlayerInputActions _actions;
 
-    public InputAction RotatePlayer => _rotatePlayer;
-    public InputAction GrabAndRelease => _grabAndRelease;
-    public InputAction ZoomGrabbed => _zoomGrabbed;
-    public InputAction InteractWithObject => _interactWithObject;
+    public static event Action<Vector2> RotatePlayer = delegate { };
+    public static event Action GrabAndRelease = delegate { };
+    public static event Action<float> ZoomGrabbed = delegate { };
+    public static event Action InteractWithObject = delegate { };
 
-    private void Awake()
+    public static void Initialize()
     {
+        if (_actions != null)
+        {
+            RotatePlayer = delegate { };
+            GrabAndRelease = delegate { };
+            ZoomGrabbed = delegate { };
+            InteractWithObject = delegate { };
+            _actions.PlayerTransform.Rotate.performed -= (InputAction.CallbackContext context) => RotatePlayer.Invoke(context.ReadValue<Vector2>());
+            _actions.WorldInteraction.GrabAndRelease.performed -= (InputAction.CallbackContext context) => GrabAndRelease.Invoke();
+            _actions.WorldInteraction.Zoom.performed -= (InputAction.CallbackContext context) => ZoomGrabbed.Invoke(context.ReadValue<float>());
+            _actions.WorldInteraction.Interact.performed -= (InputAction.CallbackContext context) => InteractWithObject.Invoke();
+            _actions.Dispose();
+        }
+
         _actions = new PlayerInputActions();
-        _rotatePlayer = _actions.PlayerTransform.Rotate;
-        _grabAndRelease = _actions.WorldInteraction.GrabAndRelease;
-        _zoomGrabbed = _actions.WorldInteraction.Zoom;
-        _interactWithObject = _actions.WorldInteraction.Interact;
+        _actions.PlayerTransform.Rotate.performed += (InputAction.CallbackContext context) => RotatePlayer.Invoke(context.ReadValue<Vector2>());
+        _actions.WorldInteraction.GrabAndRelease.performed += (InputAction.CallbackContext context) => GrabAndRelease.Invoke();
+        _actions.WorldInteraction.Zoom.performed += (InputAction.CallbackContext context) => ZoomGrabbed.Invoke(context.ReadValue<float>());
+        _actions.WorldInteraction.Interact.performed += (InputAction.CallbackContext context) => InteractWithObject.Invoke();
+        Enable();
     }
 
-    private void OnEnable()
+    public static void Enable()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         _actions.Enable();
     }
 
-    private void OnDisable()
+    public static void Disable()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;

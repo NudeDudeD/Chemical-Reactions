@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(PlayerInputHolder))]
 public class FirstPersonCameraController : MonoBehaviour
 {
     private const float _minRotationX = -90f;
@@ -18,13 +17,11 @@ public class FirstPersonCameraController : MonoBehaviour
         _rotationX = transform.rotation.eulerAngles.x;
         _rotationY = transform.rotation.eulerAngles.y;
 
-        PlayerInputHolder inputHolder = GetComponent<PlayerInputHolder>();
-        inputHolder.RotatePlayer.performed += Rotate;
+        PlayerInputHolder.RotatePlayer += Rotate;
     }
 
-    private void Rotate(InputAction.CallbackContext context)
+    private void Rotate(Vector2 input)
     {
-        Vector2 input = context.ReadValue<Vector2>();
         Vector2 rotation = new Vector2(-input.y * SensitivityX, input.x * SensitivityY);
 
         _rotationX += rotation.x;

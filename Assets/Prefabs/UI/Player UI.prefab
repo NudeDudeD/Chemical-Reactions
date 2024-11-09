@@ -293,7 +293,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7892891124947133384}
   - component: {fileID: 1799774952255903110}
-  - component: {fileID: 8035910080544690449}
+  - component: {fileID: 1920551365900096548}
   m_Layer: 5
   m_Name: Player UI
   m_TagString: Untagged
@@ -334,15 +334,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adb4ea5a04c701845a19c1684f95555d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inputActions: {fileID: 0}
   _switchTo: {fileID: 0}
-  _onSwitch:
+  _showPrevious: 0
+  _showOnSwitchedAway: 1
+  _onSwitchedAway:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
+      - m_Target: {fileID: 4016944579424240474, guid: 03d2e770f85c91c4381cfd730c8a4023, type: 3}
+        m_TargetAssemblyTypeName: PlayerInputHandlerInvoker, Assembly-CSharp
+        m_MethodName: Disable
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -351,8 +352,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _showOnSwitch: 0
---- !u!114 &8035910080544690449
+  _onSwitchedTo:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4016944579424240474, guid: 03d2e770f85c91c4381cfd730c8a4023, type: 3}
+        m_TargetAssemblyTypeName: PlayerInputHandlerInvoker, Assembly-CSharp
+        m_MethodName: Enable
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1920551365900096548
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -361,6 +376,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5437909941996004011}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2142f685d57f1864fa38e87611d944f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c2ba9fda8565aa42be5a90b2dec93b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

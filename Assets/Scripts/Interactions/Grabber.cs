@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(PlayerInputHolder), typeof(ObjectSelector))]
+[RequireComponent(typeof(ObjectSelector))]
 public class Grabber : MonoBehaviour
 {
     private ObjectSelector _selector;
@@ -22,12 +22,11 @@ public class Grabber : MonoBehaviour
 
     private void Start()
     {
-        PlayerInputHolder inputManager = GetComponent<PlayerInputHolder>();
-        inputManager.GrabAndRelease.performed += GrabReleaseAction;
-        inputManager.ZoomGrabbed.performed += ZoomInOut;
+        PlayerInputHolder.GrabAndRelease += GrabReleaseAction;
+        PlayerInputHolder.ZoomGrabbed += ZoomInOut;
     }
 
-    private void GrabReleaseAction(InputAction.CallbackContext context)
+    private void GrabReleaseAction()
     {
         if (_grabbedRigidbody == null)
             TryGrab();
@@ -35,10 +34,9 @@ public class Grabber : MonoBehaviour
             Release();
     }
 
-    private void ZoomInOut(InputAction.CallbackContext context)
+    private void ZoomInOut(float zoomValue)
     {
-        float zoom = context.ReadValue<float>();
-        _zoomDistance += zoom * _zoomMultiplier;
+        _zoomDistance += zoomValue * _zoomMultiplier;
         _zoomDistance = Mathf.Clamp(_zoomDistance, _minZoomDistance, _maxZoomDistance);
     }
 

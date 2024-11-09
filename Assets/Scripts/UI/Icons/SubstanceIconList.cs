@@ -8,11 +8,11 @@ public class SubstanceIconList : IconList
 
     private void Start()
     {
-        foreach (Pair<Substance, MaterialSettings> pair in DataStorage.SubstanceInfo.List)
+        foreach (Pair<Substance, MaterialSettings> pair in ChemistryStorage.SubstanceInfo.List)
             AddIcon(pair.Key, pair.Value);
 
-        DataStorage.SubstanceInfo.OnElementAdded += AddIcon;
-        DataStorage.SubstanceInfo.OnElementRemoved += RemoveIcon;
+        ChemistryStorage.SubstanceInfo.OnElementAdded += AddIcon;
+        ChemistryStorage.SubstanceInfo.OnElementRemoved += RemoveIcon;
     }
 
     private void RemoveIcon(Substance substance, MaterialSettings materialSettings) => RemoveIcon(substance.Name);
@@ -33,7 +33,7 @@ public class SubstanceIconList : IconList
         {
             SubstanceIcon icon = (SubstanceIcon)_selectedIcons[i];
             icon.Selected = false;
-            DataStorage.SubstanceInfo.Remove(icon.Substance);
+            ChemistryStorage.SubstanceInfo.Remove(icon.Substance);
             RemoveIcon(icon);
             icon.gameObject.SetActive(false);
         }
