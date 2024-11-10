@@ -1,10 +1,10 @@
 ﻿using System;
 using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public class Substance : IComparable<Substance>
 {
-    [System.Serializable]
+    [Serializable]
     public enum MatterState
     {
         Liquid,

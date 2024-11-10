@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 [Serializable]
 public class MaterialSettings
@@ -134,20 +133,11 @@ public class MaterialSettings
         SetSmoothness();
     }
 
-    private void SetAlbedo()
-    {
-        _material.SetColor("_Color", _albedo);
-    }
+    private void SetAlbedo() => _material.SetColor("_Color", _albedo);
 
-    private void SetMetallic()
-    {
-        _material.SetFloat("_Metallic", _metallic);
-    }
+    private void SetMetallic() => _material.SetFloat("_Metallic", _metallic);
 
-    private void SetSmoothness()
-    {
-        _material.SetFloat("_Glossiness", _smoothness);
-    }
+    private void SetSmoothness() => _material.SetFloat("_Glossiness", _smoothness);
 
     private void SetEmission()
     {
@@ -157,7 +147,10 @@ public class MaterialSettings
             _material.SetColor("_EmissionColor", _emission);
         }
         else
+        {
             _material.DisableKeyword("_EMISSION");
+            _material.SetColor("_EmissionColor", Color.black);
+        }
     }
 
     private void SetTransparency()
@@ -166,8 +159,8 @@ public class MaterialSettings
         {
             _material.SetFloat("_Mode", 3f);
             _material.SetFloat("_ZWrite", 0f);
-            _material.SetInt("_SrcBlend", (int)BlendMode.SrcAlpha);
-            _material.SetInt("_DstBlend", (int)BlendMode.OneMinusSrcAlpha);
+            _material.SetInt("_SrcBlend", 5); //BlendMode.SrcAlpha
+            _material.SetInt("_DstBlend", 10); //BlendMode.OneMinusSrcAlpha
             _material.EnableKeyword("_ALPHAPREMULTIPLY_ON");
             _material.renderQueue = 3000;
         }
@@ -175,8 +168,8 @@ public class MaterialSettings
         {
             _material.SetFloat("_Mode", 0f);
             _material.SetFloat("_ZWrite", 1f);
-            _material.SetInt("_SrcBlend", (int)BlendMode.One);
-            _material.SetInt("_DstBlend", (int)BlendMode.Zero);
+            _material.SetInt("_SrcBlend", 1); //BlendMode.One
+            _material.SetInt("_DstBlend", 0); //BlendMode.Zero
             _material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
             _material.renderQueue = -1;
         }

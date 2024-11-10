@@ -23,7 +23,14 @@ public static class ChemistryStorage
 
         public void Load()
         {
-            _storage = JsonDataLoader.LoadList<T>(_path);
+            try
+            {
+                _storage = JsonDataLoader.LoadList<T>(_path);
+            }
+            catch (Exception)
+            {
+                _storage = new List<T>();
+            }
         }
 
         public void Save()
@@ -76,7 +83,15 @@ public static class ChemistryStorage
 
         public void Load()
         {
-            _storage = JsonDataLoader.LoadList<Pair<T1, T2>>(_path);
+            try
+            {
+                _storage = JsonDataLoader.LoadList<Pair<T1, T2>>(_path);
+
+            }
+            catch (Exception)
+            {
+                _storage = new List<Pair<T1, T2>>();
+            }
         }
 
         public void Save()
