@@ -1,51 +1,114 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
-[System.Serializable]
-public class Reaction : IComparable<Reaction>
+[Serializable]
+public partial class Reaction : IComparable<Reaction>
 {
-    public enum ReactionAgent
+    [Serializable]
+    public enum Agent
     {
-        None,
-        Heat
+        Heat,
+        Light,
+        Electricity
     }
 
-    public enum ReactionEffect
+    [Serializable]
+    public enum VisualEffect
     {
-        None,
+        Default,
         Explosion
     }
 
-    [SerializeField] private Substance _inputSubstance;
-    [SerializeField] private Substance _outputSubstance;
-    [SerializeField] private Substance _additionalInputSubstance;
-    [SerializeField] private Substance _additionalOutputSubstance;
-    [SerializeField] private ReactionAgent _agent;
-    [SerializeField] private ReactionEffect _effect;
+    [SerializeField] private Substance _reactive;
+    [SerializeField] private Substance _product;
+    [SerializeField] private Substance _additionalReactive;
+    [SerializeField] private Substance _additionalProduct;
+    [SerializeField] private Agent[] _agents;
+    [SerializeField] private VisualEffect _effect;
     [SerializeField] private bool _worksInReverse;
 
-    public Substance InputSubstance => _inputSubstance;
-    public Substance OutputSubstance => _outputSubstance;
-    public Substance AdditionalInputSubstance => _additionalInputSubstance;
-    public Substance AdditionalOutputSubstance => _additionalOutputSubstance;
-    public ReactionAgent Agent => _agent;
-    public ReactionEffect Effect => _effect;
+    public string Name
+    {
+        get
+        {
+            string reactives = "{" + _reactive.Name + "}" + (_additionalReactive != null ? " + {" + _additionalReactive.Name + "}" : string.Empty);
+            string products;
+            if (_product != null)
+                products = "{" + _product.Name + "}" + (_additionalProduct != null ? " + {" + _additionalProduct.Name + "}" : string.Empty);
+            else if (_additionalProduct != null)
+                products = "{" + _additionalProduct.Name + "}";
+            else
+                products = "Nothing";
+
+            return reactives + " " + (_worksInReverse ? "<" : string.Empty) + "=> " + products;
+        }
+    }
+
+    public Substance Reactive => _reactive;
+    public Substance Product => _product;
+    public Substance AdditionalReactive => _additionalReactive;
+    public Substance AdditionalProduct => _additionalProduct;
+    public Agent[] Agents => _agents;
+    public VisualEffect Effect => _effect;
     public bool WorksInReverse => _worksInReverse;
 
-    public Reaction(Substance inputSubstance, Substance outputSubstance = null, Substance additionalInputSubstance = null, Substance additionalOutputSubstance = null, ReactionAgent reactionAgent = ReactionAgent.None, ReactionEffect reactionEffect = ReactionEffect.None, bool worksInReverse = false)
+    public Reaction(Substance reactive, Substance additionalReactive = null, Substance product = null, Substance additionalProduct = null, Agent[] reactionAgents = null, VisualEffect reactionEffect = VisualEffect.Default, bool worksInReverse = false)
     {
-        _inputSubstance = inputSubstance;
-        _outputSubstance = outputSubstance;
-        _additionalInputSubstance = additionalInputSubstance;
-        _additionalOutputSubstance = additionalOutputSubstance;
-        _agent = reactionAgent;
+        _reactive = reactive;
+        _additionalReactive = additionalReactive;  
+        _product = product;
+        _additionalProduct = additionalProduct;
+        _agents = reactionAgents;
         _effect = reactionEffect;
         _worksInReverse = worksInReverse;
     }
 
     public int CompareTo(Reaction other)
     {
-        //Coming sometime
+        if (other.WorksInReverse != _worksInReverse || other.Effect != _effect || _agents.Length != other._agents.Length)
+            return 0;
+
+        for (int i = 0; i < _agents.Length; i++)
+            if (!other._agents.Contains(_agents[i]))
+                return 0;
+
+        Substance reactive = other.Reactive;
+        Substance product = other.Product;
+        Substance additionalReactive = other.AdditionalReactive;
+        Substance additionalProduct = other.AdditionalProduct;
+        if (CompareSubstancePairs(reactive, additionalReactive, _reactive, _additionalReactive) &&
+            CompareSubstancePairs(product, additionalProduct, _product, _additionalProduct) || _worksInReverse && 
+            CompareSubstancePairs(reactive, additionalReactive, _product, _additionalProduct) &&
+            CompareSubstancePairs(product, additionalProduct, _reactive, _additionalReactive))
+            return 1;
+
         return 0;
+    }
+
+    public bool CanReact(Substance reactive, Substance additionalReactive, Agent[] activeAgents, out bool reversed)
+    {
+        reversed = false; 
+
+        for (int i = 0; i < _agents.Length; i++)
+            if (!activeAgents.Contains(_agents[i]))
+                return false;
+
+        if (CompareSubstancePairs(reactive, additionalReactive, _reactive, _additionalReactive))
+            return true;
+        else if (_worksInReverse && CompareSubstancePairs(reactive, additionalReactive, _product, _additionalProduct))
+        {
+            reversed = true;
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool CompareSubstancePairs(Substance substance1, Substance substance2, Substance comparable1, Substance comparable2)
+    {
+        bool message = substance1 == comparable1 && substance2 == comparable2 || substance1 == comparable2 && substance2 == comparable1;
+        //Debug.Log("{" + substance1?.Name + "} , {" + substance2?.Name + "} : {" + comparable1?.Name + "} , {" + comparable2?.Name + "} :" + message);
+        return message;
     }
 }

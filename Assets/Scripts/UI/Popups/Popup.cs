@@ -3,13 +3,8 @@ public abstract class Popup : UITransitioner
     public virtual void Initialize()
     {
         SetInstance();
+        _onSwitchedAway.AddListener(OnClosing);
         gameObject.SetActive(false);
-    }
-
-    public override void Switch()
-    {     
-        OnClosing();
-        base.Switch();
     }
 
     protected abstract void OnClosing();

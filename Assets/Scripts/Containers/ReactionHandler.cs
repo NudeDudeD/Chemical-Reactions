@@ -6,44 +6,20 @@ public class ReactionHandler : MonoBehaviour
 {
     [SerializeField] private SubstanceContainer _container;
     [SerializeField] private SubstanceContainer _additionalContainer;
-    private List<Reaction> _reactions;
-    private bool _inProcess;
-    private Reaction _latestReaction;
-    private Reaction.ReactionAgent _agent;
+    private List<Reaction.Agent> _agents = new List<Reaction.Agent>();
 
-    public Reaction LatestReaction
-    {
-        get => _latestReaction;
-        private set
-        {
-            _latestReaction = value;
-            OnReactionPerformed.Invoke();
-        }
-    }
+    public event Action<Reaction> OnReactionPerformed = delegate { };
+    public event Action OnAgentsChanged = delegate { };
 
-    public Reaction.ReactionAgent Agent
-    {
-        get => _agent;
-        set
-        {
-            _agent = value;
-            OnAgentChanged.Invoke();
-        }
-    }
-
-    public bool InProcess => _inProcess;
-
-    public event Action OnReactionPerformed = delegate { };
-    public event Action OnAgentChanged = delegate { };
+    private bool _isReacting = false;
 
     private void Awake()
     {
-        _reactions = new List<Reaction>();
         _container.OnSubstanceChanged += FillCheck;
         _additionalContainer.OnSubstanceChanged += FillCheck;
         _container.OnSubstanceChanged += TryReact;
         _additionalContainer.OnSubstanceChanged += TryReact;
-        OnAgentChanged += TryReact;
+        OnAgentsChanged += TryReact;
     }
 
     private void FillCheck()
@@ -56,92 +32,51 @@ public class ReactionHandler : MonoBehaviour
         }
     }
 
-    private void TryReact() //Big 'if' hell begins here...
+    private void TryReact()
     {
-        if (_reactions.Count == 0)
+        if (_isReacting)
             return;
 
-        if (_inProcess)
-            return;
-
-        Substance outputSubstance;
-        Substance additionalOutputSubstance;
-
-        _inProcess = true;
-        if (!TryFindReaction(out outputSubstance, out additionalOutputSubstance))
-        {
-            _inProcess = false;
-            return;
-        }           
-
-        _additionalContainer.GetOutputRequest();
-        _container.GetOutputRequest();
-        if (!_container.GetInputRequest(outputSubstance))
-            _additionalContainer.GetInputRequest(outputSubstance);
-        else if (additionalOutputSubstance != null)
-            _additionalContainer.GetInputRequest(additionalOutputSubstance);
-
-        _inProcess = false;
-    }
-
-    private bool TryFindReaction(out Substance outputSubstance, out Substance additionalOutputSubstance)
-    {
-        bool worksInReverse = false;
-        bool switchedSubstances = false;
-        outputSubstance = null;
-        additionalOutputSubstance = null;
-
-        List<Reaction> reactions = _reactions.FindAll(reaction => reaction.Agent == Reaction.ReactionAgent.None || reaction.Agent == _agent);
-
-        if (reactions.Count == 0)
-            return false;
-
-        Reaction reaction;
-
-        reaction = reactions.Find(listReaction => ChemicalComparerSwitching(listReaction.InputSubstance, _container.Substance, out switchedSubstances, listReaction.AdditionalInputSubstance, _additionalContainer.Substance));
+        _isReacting = true;
+        bool inverted = false;
+        Reaction.Agent[] agents = _agents.ToArray();
+        Reaction reaction = ChemistryStorage.Reactions.Find(r => r.CanReact(_container.Substance, _additionalContainer.Substance, agents, out inverted));
 
         if (reaction == null)
         {
-            reactions = reactions.FindAll(reaction => reaction.WorksInReverse);
-            if (reactions.Count == 0)
-                return false;
-            reaction = reactions.Find(listReaction => ChemicalComparerSwitching(listReaction.OutputSubstance, _container.Substance, out switchedSubstances, listReaction.AdditionalOutputSubstance, _additionalContainer.Substance));
-            if (reaction == null)
-                return false;
-            else
-                worksInReverse = true;
+            _isReacting = false;
+            return;
         }
 
-        if (switchedSubstances)
-        {
-            outputSubstance = worksInReverse ? reaction.AdditionalInputSubstance : reaction.AdditionalOutputSubstance;
-            additionalOutputSubstance = worksInReverse ? reaction.InputSubstance : reaction.OutputSubstance;
-        }
-        else
-        {
-            outputSubstance = worksInReverse ? reaction.InputSubstance : reaction.OutputSubstance;
-            additionalOutputSubstance = worksInReverse ? reaction.AdditionalInputSubstance : reaction.AdditionalOutputSubstance;
-        }
+        Substance product = inverted ? reaction.Reactive : reaction.Product;
+        Substance additionalProduct = inverted ? reaction.AdditionalReactive : reaction.AdditionalProduct;
 
-        LatestReaction = reaction;
-        return true;
+        _additionalContainer.GetOutputRequest();
+        _container.GetOutputRequest();
+        if (!_container.GetInputRequest(product))
+            _additionalContainer.GetInputRequest(product);
+        else if (additionalProduct != null)
+            _additionalContainer.GetInputRequest(additionalProduct);
+
+        OnReactionPerformed.Invoke(reaction);
+        _isReacting = false;
     }
 
-    private bool ChemicalComparerSwitching(Substance reactive, Substance comparable, out bool switchedSubstances, Substance additionalReactive = null, Substance additionalComparable = null)
+    public void AddAgent(Reaction.Agent agent)
     {
-        switchedSubstances = false;
+        if (_agents.Exists(a => a == agent))
+            return;
 
-        if (ChemicalsComparer(reactive, comparable, additionalReactive, additionalComparable))
-            return true;
-        if (ChemicalsComparer(additionalReactive, comparable, reactive, additionalComparable))
-        {
-            switchedSubstances = true;
-            return true;
-        }
-
-        return false;
+        _agents.Add(agent);
+        OnAgentsChanged.Invoke();
     }
 
-    private bool ChemicalsComparer(Substance reactive, Substance comparable, Substance additionalReactive = null, Substance additionalComparable = null)
-        => reactive == comparable && additionalReactive == additionalComparable;
+    public void RemoveAgent(Reaction.Agent agent)
+    {
+        bool deleted = _agents.Remove(agent);
+        if (!deleted)
+            return;
+
+        OnAgentsChanged.Invoke();
+    }
 }

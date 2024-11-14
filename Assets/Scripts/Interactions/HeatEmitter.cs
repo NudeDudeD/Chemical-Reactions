@@ -6,12 +6,15 @@ public class HeatEmitter : MonoBehaviour, ISimpleInteractable
     [SerializeField] private ReactionHandler _receiver;
     private bool _isActivated;
 
-    public event Action OnActiveSwitch = delegate { };
+    public event Action<bool> OnActivitySwitch = delegate { };
 
     public void Interact(SimpleInteractor interactor = null)
     {
         _isActivated = !_isActivated;
-        OnActiveSwitch.Invoke();
-        _receiver.Agent = _isActivated ? Reaction.ReactionAgent.Heat : Reaction.ReactionAgent.None;
+        OnActivitySwitch.Invoke(_isActivated);
+        if (_isActivated)
+            _receiver.AddAgent(Reaction.Agent.Heat);
+        else
+            _receiver.RemoveAgent(Reaction.Agent.Heat);
     }
 }

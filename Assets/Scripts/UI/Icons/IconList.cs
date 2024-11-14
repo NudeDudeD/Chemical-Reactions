@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Collections;
 using UnityEngine;
 
 public abstract class IconList : MonoBehaviour
@@ -17,7 +16,9 @@ public abstract class IconList : MonoBehaviour
             return;
 
         RectTransform rectTransform = _icons[index].GetComponent<RectTransform>();
-        rectTransform.anchoredPosition = _startingPoint + index * _offset;
+        Vector2 position = _startingPoint + index * _offset;
+        rectTransform.anchoredPosition = position;
+        _parent.sizeDelta = new Vector2(position.x + _startingPoint.x, _parent.sizeDelta.y);
         index++;
         if (index < _icons.Count)
             SortIcon(index);

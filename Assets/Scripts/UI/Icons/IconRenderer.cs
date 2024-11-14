@@ -4,7 +4,24 @@ public class IconRenderer : MonoBehaviour
 {
     private static IconRenderer _instance;
 
-    public static Material Material { get => _instance._renderer.sharedMaterial; set => _instance._renderer.sharedMaterial = value; }
+    public static Material Material
+    {
+        get
+        {
+            if (_instance == null)
+                return null;
+
+            return _instance._renderer.sharedMaterial;
+        }
+
+        set
+        {
+            if (_instance == null)
+                return;
+
+            _instance._renderer.sharedMaterial = value;
+        }
+    }
 
     [SerializeField] private Renderer _renderer;
     [SerializeField] private Camera _renderingCamera;

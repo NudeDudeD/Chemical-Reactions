@@ -4,7 +4,7 @@
 public class ReactionVisualizer : MonoBehaviour
 {   
     [SerializeField] private ReactionHandler _reactionHandler;
-    [SerializeField] private Reaction.ReactionEffect _reactionEffect;
+    [SerializeField] private Reaction.VisualEffect _reactionEffect;
 
     private ParticleSystem _particleSystem;
 
@@ -14,9 +14,9 @@ public class ReactionVisualizer : MonoBehaviour
         _reactionHandler.OnReactionPerformed += Revisualize;
     }
 
-    private void Revisualize()
+    private void Revisualize(Reaction reaction)
     {
-        if (_reactionHandler.LatestReaction.Effect == _reactionEffect)
+        if (reaction.Effect == _reactionEffect)
             _particleSystem.Play();
     }
 }

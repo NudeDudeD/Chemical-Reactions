@@ -16,7 +16,7 @@ public class SubstanceContainer : MonoBehaviour
             return;
         }
 
-        Pair<Substance, MaterialSettings> pair = ChemistryStorage.SubstanceInfo.Find(Substance);
+        Pair<Substance, MaterialSettings> pair = ChemistryStorage.SubstanceInfo.FindReference(Substance);
         if (pair != null)
             Substance = pair.Key;
         else

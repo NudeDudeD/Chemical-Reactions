@@ -10,18 +10,35 @@ public class UITransitioner : MonoBehaviour
     [SerializeField] protected bool _showOnSwitchedAway;
     [SerializeField] protected UnityEvent _onSwitchedAway;
     [SerializeField] protected UnityEvent _onSwitchedTo;
+    [SerializeField] protected UnityEvent _onSwitchedToPrevious;
 
-    public virtual void Switch() => _switchTo.SetAsActiveTransitioner();
+    protected static void ResetActiveTransitioner(UITransitioner caller, bool showPrevious)
+    {
+        UIInputHolder.Switch -= _activeTransitioner.Switch;
+        _activeTransitioner._onSwitchedAway.Invoke();
+
+        if (caller != _activeTransitioner._switchTo && _activeTransitioner is Popup)
+        {
+            UITransitioner transitioner = _activeTransitioner._switchTo;
+            _activeTransitioner.gameObject.SetActive(false);
+            transitioner._onSwitchedAway.Invoke();
+            if (!(showPrevious || transitioner._showOnSwitchedAway))
+                transitioner.gameObject.SetActive(false);
+        }
+        else if (!(showPrevious || _activeTransitioner._showOnSwitchedAway))
+            _activeTransitioner.gameObject.SetActive(false);
+    }
+
+    public virtual void Switch()
+    {
+        _switchTo.SetAsActiveTransitioner();
+        _onSwitchedToPrevious.Invoke();
+    }
 
     public virtual void SetAsActiveTransitioner()
     {
         if (_activeTransitioner != null)
-        {
-            UIInputHolder.Switch -= _activeTransitioner.Switch;
-            if (!(_showPrevious || _activeTransitioner._showOnSwitchedAway))
-                _activeTransitioner.gameObject.SetActive(false);
-            _activeTransitioner._onSwitchedAway.Invoke();
-        }
+            ResetActiveTransitioner(this, _showPrevious);
 
         UIInputHolder.Switch += Switch;
         gameObject.SetActive(true);

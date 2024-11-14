@@ -52,5 +52,4 @@ public class SubstanceIconList : IconList
             message += '\n' + icon.Substance.Name;
         MessageBox.Show("Substances", message, RemoveSelected, MessageBox.Buttons.OkCancel);
     }
-
 }

@@ -9,7 +9,9 @@ public class SubstanceEditor : MonoBehaviour
     private string _substanceName;
     private Substance.MatterState _matterState;
 
-    private void OnEnable() => ResetParameters();
+    private void Awake() => ResetParameters();
+
+    private void OnDisable() => ResetParameters();
 
     private void ResetParameters()
     {

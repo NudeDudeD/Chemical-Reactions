@@ -5,7 +5,7 @@ public static class IconStorage
 {
     private static List<Pair<Substance, Texture>> _substanceTextures;
 
-    public static Texture GetTexture(Substance substance) => _substanceTextures.Find(p => p.Key.CompareTo(substance) > 0)?.Value;
+    public static Texture GetTexture(Substance substance) => _substanceTextures.Find(p => p.Key == substance)?.Value;
 
     public static void Initialize()
     {
