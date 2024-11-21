@@ -1,14 +1,16 @@
 using System;
 using UnityEngine;
 
-public class HeatEmitter : MonoBehaviour, ISimpleInteractable
+public class HeatEmitter : MonoBehaviour, IInteractable
 {
     [SerializeField] private ReactionHandler _receiver;
     private bool _isActivated;
 
+    public string Name => _isActivated ? "Deactivate heat" : "Activate heat";
+
     public event Action<bool> OnActivitySwitch = delegate { };
 
-    public void Interact(SimpleInteractor interactor = null)
+    public void Interact(Interactor interactor = null)
     {
         _isActivated = !_isActivated;
         OnActivitySwitch.Invoke(_isActivated);

@@ -642,6 +642,34 @@ PrefabInstance:
       propertyPath: m_Value
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3951502756977172629, guid: 7273ed547fe133a498ecff4cd04989ef, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3951502756977172629, guid: 7273ed547fe133a498ecff4cd04989ef, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3951502756977172629, guid: 7273ed547fe133a498ecff4cd04989ef, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1428059784}
+    - target: {fileID: 3951502756977172629, guid: 7273ed547fe133a498ecff4cd04989ef, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: FillWithSelected
+      objectReference: {fileID: 0}
+    - target: {fileID: 3951502756977172629, guid: 7273ed547fe133a498ecff4cd04989ef, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SubstanceIconList, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3951502756977172629, guid: 7273ed547fe133a498ecff4cd04989ef, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 8706616228379877411}
+    - target: {fileID: 3951502756977172629, guid: 7273ed547fe133a498ecff4cd04989ef, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: SubstanceContainer, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 4470974725808260771, guid: 7273ed547fe133a498ecff4cd04989ef, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1975,6 +2003,17 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -2034370013592682358, guid: 663bf986ccc8edf4d9e5e9f3bfea7cea, type: 3}
+--- !u!114 &1428059784 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3080822074067703161, guid: 7273ed547fe133a498ecff4cd04989ef, type: 3}
+  m_PrefabInstance: {fileID: 767295748}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 191ff8baee8ed8e40ba4c0004a30a8cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1448303927
 GameObject:
   m_ObjectHideFlags: 0
@@ -2160,7 +2199,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1706435559}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a29fffe5b920a144b87694115f436d22, type: 3}
+  m_Script: {fileID: 11500000, guid: 9910267177a667c4fbcb747cc48f19e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1729003637 stripped
@@ -7708,6 +7747,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1303715935}
     m_Modifications:
+    - target: {fileID: 498326700311762511, guid: b1d6799877df6bc48ae2ec40fbdb091c, type: 3}
+      propertyPath: _selector
+      value: 
+      objectReference: {fileID: 1706435564}
+    - target: {fileID: 498326700311762511, guid: b1d6799877df6bc48ae2ec40fbdb091c, type: 3}
+      propertyPath: _interactor
+      value: 
+      objectReference: {fileID: 1706435565}
     - target: {fileID: 1799774952255903110, guid: b1d6799877df6bc48ae2ec40fbdb091c, type: 3}
       propertyPath: _switchTo
       value: 

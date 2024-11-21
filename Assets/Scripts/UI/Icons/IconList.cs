@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class IconList : MonoBehaviour
@@ -6,9 +7,13 @@ public abstract class IconList : MonoBehaviour
     [SerializeField] private RectTransform _parent;
     [SerializeField] private Vector2 _startingPoint;
     [SerializeField] private Vector2 _offset;
+    [SerializeField] protected IconFrame _iconPrefab;
 
-    private List<IconFrame> _icons = new List<IconFrame>();
+    protected List<IconFrame> _icons = new List<IconFrame>();
     protected List<IconFrame> _selectedIcons = new List<IconFrame>();
+
+    protected abstract string NoSelectedMessage { get; }
+    protected abstract string DeletionMessage { get; }
 
     private void SortIcon(int index)
     {
@@ -24,9 +29,9 @@ public abstract class IconList : MonoBehaviour
             SortIcon(index);
     }
 
-    private void AddSelectedIcon(SimpleSelectable sender) => _selectedIcons.Add((IconFrame)sender);
+    private void AddSelectedIcon(SelectableGraphic sender) => _selectedIcons.Add((IconFrame)sender);
 
-    private void RemoveSelectedIcon(SimpleSelectable sender) => _selectedIcons.Remove((IconFrame)sender);
+    private void RemoveSelectedIcon(SelectableGraphic sender) => _selectedIcons.Remove((IconFrame)sender);
 
     protected void AddIcon(IconFrame icon)
     {
@@ -46,8 +51,9 @@ public abstract class IconList : MonoBehaviour
 
         _icons[index].OnSelect -= AddSelectedIcon;
         _icons[index].OnDeselect -= RemoveSelectedIcon;
-
+        Destroy(_icons[index].gameObject); //pool of reusable icons is a good idea, have no time to implement it though
         _icons.RemoveAt(index);
+
         if (index < _icons.Count)
             SortIcon(index);
     }
@@ -70,9 +76,56 @@ public abstract class IconList : MonoBehaviour
         RemoveIcon(index);
     }
 
+    protected abstract void RemoveSelected();
+
+    public void RequestRemoveSelected()
+    {
+        if (_selectedIcons.Count == 0)
+        {
+            MessageBox.Show("Information", NoSelectedMessage);
+            return;
+        }
+
+        string message = DeletionMessage;
+        foreach (IconFrame icon in _selectedIcons)
+            message += '\n' + icon.Text;
+        MessageBox.Show("Deletion", message, (callback) => { if (callback) RemoveSelected(); }, MessageBox.Buttons.OkCancel);
+    }
+
     public void DeselectAll()
     {
         for (int i = _selectedIcons.Count - 1; i >= 0; i--)
             _selectedIcons[i].Selected = false;
+    }
+
+    public void Filter(string name)
+    {
+        if (name == string.Empty)
+        {
+            foreach (var icon in _icons)
+                if (icon.Interactable == false)
+                    icon.Interactable = true;
+            return;
+        }
+
+        name = name.ToLowerInvariant();
+        foreach (var icon in _icons)
+        {
+            bool alike = false;
+            string iconName = new string(icon.Text.Where(c => char.IsLetter(c) || c == ' ').ToArray());
+            iconName = iconName.ToLowerInvariant();
+            string[] strings = iconName.Split(' ');
+            foreach (string s in strings)
+                if (s.StartsWith(name))
+                {
+                    alike = true;
+                    break;
+                }
+
+            if (!alike)
+                icon.Interactable = false;
+            else if (!icon.Interactable)
+                icon.Interactable = true;
+        }
     }
 }

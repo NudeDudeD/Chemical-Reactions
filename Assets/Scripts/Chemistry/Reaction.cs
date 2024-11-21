@@ -55,13 +55,31 @@ public partial class Reaction : IComparable<Reaction>
 
     public Reaction(Substance reactive, Substance additionalReactive = null, Substance product = null, Substance additionalProduct = null, Agent[] reactionAgents = null, VisualEffect reactionEffect = VisualEffect.Default, bool worksInReverse = false)
     {
-        _reactive = reactive;
-        _additionalReactive = additionalReactive;  
-        _product = product;
-        _additionalProduct = additionalProduct;
+        if (reactive == null && _additionalReactive != null)
+            _reactive = _additionalReactive;
+        else
+        { 
+            _reactive = reactive;
+            _additionalReactive = additionalReactive;
+        }
+
+        if (product == null && additionalProduct != null)
+            _product = additionalProduct;
+        else
+        {
+            _product = product;
+            _additionalProduct = additionalProduct;
+        }
+
         _agents = reactionAgents;
         _effect = reactionEffect;
         _worksInReverse = worksInReverse;
+    }
+
+    private bool CompareSubstancePairs(Substance substance1, Substance substance2, Substance comparable1, Substance comparable2)
+    {
+        //Debug.Log("{" + substance1?.Name + "} , {" + substance2?.Name + "} : {" + comparable1?.Name + "} , {" + comparable2?.Name + "}");
+        return substance1 == comparable1 && substance2 == comparable2 || substance1 == comparable2 && substance2 == comparable1;
     }
 
     public int CompareTo(Reaction other)
@@ -105,10 +123,8 @@ public partial class Reaction : IComparable<Reaction>
         return false;
     }
 
-    private bool CompareSubstancePairs(Substance substance1, Substance substance2, Substance comparable1, Substance comparable2)
+    public bool HasSubstance(Substance substance)
     {
-        bool message = substance1 == comparable1 && substance2 == comparable2 || substance1 == comparable2 && substance2 == comparable1;
-        //Debug.Log("{" + substance1?.Name + "} , {" + substance2?.Name + "} : {" + comparable1?.Name + "} , {" + comparable2?.Name + "} :" + message);
-        return message;
+        return substance == _reactive || substance == _additionalReactive || substance == _product || substance == _additionalProduct;
     }
 }

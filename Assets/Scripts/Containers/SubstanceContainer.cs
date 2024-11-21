@@ -40,21 +40,23 @@ public class SubstanceContainer : MonoBehaviour
             Substance = null;
     }
 
-    protected virtual void InteractWithContainer(ref SubstanceContainer interactableContainer) 
+    protected void ResetContents() => Substance = null;
+
+    protected virtual void InteractWithContainer(SubstanceContainer interactableContainer) 
     {
         if (Substance == null)
-            RequestSubstanceOutput(ref interactableContainer);
+            RequestSubstanceOutput(interactableContainer);
         else
-            RequestSubstanceInput(ref interactableContainer);
+            RequestSubstanceInput(interactableContainer);
     }
 
-    protected virtual void RequestSubstanceInput(ref SubstanceContainer interactableContainer)
+    protected virtual void RequestSubstanceInput(SubstanceContainer interactableContainer)
     {
         if (interactableContainer.GetInputRequest(Substance))
             Substance = null;
     }
 
-    protected virtual void RequestSubstanceOutput(ref SubstanceContainer interactableContainer)
+    protected virtual void RequestSubstanceOutput(SubstanceContainer interactableContainer)
     {
         Substance requestedSubstance = interactableContainer.GetOutputRequest();
         if (requestedSubstance != null)
@@ -70,7 +72,7 @@ public class SubstanceContainer : MonoBehaviour
         }
 
         return false;
-    }
+    } 
 
     public virtual Substance GetOutputRequest()
     {

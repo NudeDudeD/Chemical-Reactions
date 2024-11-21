@@ -118,6 +118,54 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Chemistry"",
+            ""id"": ""cf4a4bd7-0151-459e-9b46-03d4ecf6a071"",
+            ""actions"": [
+                {
+                    ""name"": ""Fill"",
+                    ""type"": ""Button"",
+                    ""id"": ""53dde599-4c04-4b94-8285-c54b7cd7e312"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reset"",
+                    ""type"": ""Button"",
+                    ""id"": ""0e53483c-7fa0-469b-b949-c85b409a52a5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""0db23ae7-0fa7-4d5c-88b1-cb25570525aa"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse and Keyboard"",
+                    ""action"": ""Fill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f67632d4-b396-4e48-97bf-c53f18b93e42"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse and Keyboard"",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -147,6 +195,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_WorldInteraction_GrabAndRelease = m_WorldInteraction.FindAction("Grab And Release", throwIfNotFound: true);
         m_WorldInteraction_Zoom = m_WorldInteraction.FindAction("Zoom", throwIfNotFound: true);
         m_WorldInteraction_Interact = m_WorldInteraction.FindAction("Interact", throwIfNotFound: true);
+        // Chemistry
+        m_Chemistry = asset.FindActionMap("Chemistry", throwIfNotFound: true);
+        m_Chemistry_Fill = m_Chemistry.FindAction("Fill", throwIfNotFound: true);
+        m_Chemistry_Reset = m_Chemistry.FindAction("Reset", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -312,6 +364,60 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public WorldInteractionActions @WorldInteraction => new WorldInteractionActions(this);
+
+    // Chemistry
+    private readonly InputActionMap m_Chemistry;
+    private List<IChemistryActions> m_ChemistryActionsCallbackInterfaces = new List<IChemistryActions>();
+    private readonly InputAction m_Chemistry_Fill;
+    private readonly InputAction m_Chemistry_Reset;
+    public struct ChemistryActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public ChemistryActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Fill => m_Wrapper.m_Chemistry_Fill;
+        public InputAction @Reset => m_Wrapper.m_Chemistry_Reset;
+        public InputActionMap Get() { return m_Wrapper.m_Chemistry; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ChemistryActions set) { return set.Get(); }
+        public void AddCallbacks(IChemistryActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ChemistryActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ChemistryActionsCallbackInterfaces.Add(instance);
+            @Fill.started += instance.OnFill;
+            @Fill.performed += instance.OnFill;
+            @Fill.canceled += instance.OnFill;
+            @Reset.started += instance.OnReset;
+            @Reset.performed += instance.OnReset;
+            @Reset.canceled += instance.OnReset;
+        }
+
+        private void UnregisterCallbacks(IChemistryActions instance)
+        {
+            @Fill.started -= instance.OnFill;
+            @Fill.performed -= instance.OnFill;
+            @Fill.canceled -= instance.OnFill;
+            @Reset.started -= instance.OnReset;
+            @Reset.performed -= instance.OnReset;
+            @Reset.canceled -= instance.OnReset;
+        }
+
+        public void RemoveCallbacks(IChemistryActions instance)
+        {
+            if (m_Wrapper.m_ChemistryActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IChemistryActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ChemistryActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ChemistryActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public ChemistryActions @Chemistry => new ChemistryActions(this);
     private int m_MouseandKeyboardSchemeIndex = -1;
     public InputControlScheme MouseandKeyboardScheme
     {
@@ -330,5 +436,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnGrabAndRelease(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+    }
+    public interface IChemistryActions
+    {
+        void OnFill(InputAction.CallbackContext context);
+        void OnReset(InputAction.CallbackContext context);
     }
 }

@@ -7,12 +7,13 @@ public class ControllableSubstanceContainer : SubstanceContainer
     protected override void Awake()
     {
         base.Awake();
-        PlayerInputHolder.InteractWithObject += TryInteractWithContainer;
+        PlayerInputHolder.Fill += TryInteractWithContainer;
+        PlayerInputHolder.Reset += ResetContents;
     }
 
     private void TryInteractWithContainer()
     {
         if (_selector.TryGetSelectedComponent(out SubstanceContainer container))
-            InteractWithContainer(ref container);
+            InteractWithContainer(container);
     }
 }

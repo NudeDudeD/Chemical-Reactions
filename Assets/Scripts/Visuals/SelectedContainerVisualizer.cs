@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 
+[RequireComponent(typeof(TMP_Text))]
 public class SelectedContainerVisualizer : SubstanceVisualizer
 {
     [SerializeField] private ObjectSelector _selector;
@@ -20,9 +21,9 @@ public class SelectedContainerVisualizer : SubstanceVisualizer
             return;
 
         if (_container.Substance == null)
-            text = "<Container is empty>";
+            text = "[F] <Container is empty>";
         else
-            text = "[" + _container.Substance.Name + "]";
+            text = "[F] {" + _container.Substance.Name + "}";
 
         _tmpText.text = text;
     }

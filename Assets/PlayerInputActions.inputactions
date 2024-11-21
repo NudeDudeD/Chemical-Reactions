@@ -1,5 +1,5 @@
 {
-    "name": "PlayerActions",
+    "name": "PlayerInputActions",
     "maps": [
         {
             "name": "Player Transform",
@@ -92,6 +92,54 @@
                     "processors": "",
                     "groups": "Mouse and Keyboard",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Chemistry",
+            "id": "cf4a4bd7-0151-459e-9b46-03d4ecf6a071",
+            "actions": [
+                {
+                    "name": "Fill",
+                    "type": "Button",
+                    "id": "53dde599-4c04-4b94-8285-c54b7cd7e312",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Reset",
+                    "type": "Button",
+                    "id": "0e53483c-7fa0-469b-b949-c85b409a52a5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0db23ae7-0fa7-4d5c-88b1-cb25570525aa",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse and Keyboard",
+                    "action": "Fill",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f67632d4-b396-4e48-97bf-c53f18b93e42",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse and Keyboard",
+                    "action": "Reset",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

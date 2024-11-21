@@ -1,10 +1,12 @@
-﻿using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using System;
+using UnityEngine;
 
 [RequireComponent(typeof(ObjectSelector))]
-public class SimpleInteractor : MonoBehaviour
+public class Interactor : MonoBehaviour
 {
     private ObjectSelector _selector;
+
+    public event Action OnInteraction = delegate { };
 
     private void Awake()
     {
@@ -18,7 +20,10 @@ public class SimpleInteractor : MonoBehaviour
 
     private void Interact()
     {
-        if (_selector.TryGetSelectedComponent(out ISimpleInteractable simpleInteractable))
+        if (_selector.TryGetSelectedComponent(out IInteractable simpleInteractable))
+        {
             simpleInteractable.Interact();
+            OnInteraction.Invoke();
+        }
     }
 }

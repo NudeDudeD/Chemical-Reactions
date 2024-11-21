@@ -2,16 +2,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class IconFrame : SimpleSelectable
+public abstract class IconFrame : SelectableGraphic
 {
-    [SerializeField] private TMP_Text _text;
-    [SerializeField] private RawImage _rawImage;
+    [SerializeField] protected TMP_Text _name;
     
-    public string Text { get => _text.text; }
+    public string Text => _name.text;
 
-    public void Redraw(string text, Texture image)
-    {
-        _rawImage.texture = image;
-        _text.text = text;
-    }
+    public abstract void Redraw();
 }

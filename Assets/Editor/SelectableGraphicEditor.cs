@@ -1,15 +1,14 @@
 using UnityEditor;
-using UnityEngine;
 
-[CustomEditor(typeof(SimpleSelectable), true)]
-public class SimpleSelectableEditor : Editor
+[CustomEditor(typeof(SelectableGraphic), true)]
+public class SelectableGraphicEditor : Editor
 {
-    private SimpleSelectable _target;
+    private SelectableGraphic _target;
 
     public override void OnInspectorGUI()
     {
         if (_target == null)
-            _target = ((SimpleSelectable)target);
+            _target = (SelectableGraphic)target;
 
         base.OnInspectorGUI();
         _target.Interactable = EditorGUILayout.Toggle("Interactable", _target.Interactable);

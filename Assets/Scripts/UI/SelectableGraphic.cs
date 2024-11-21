@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Graphic))]
-public class SimpleSelectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
+public class SelectableGraphic : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     private enum State
     {
@@ -20,17 +20,17 @@ public class SimpleSelectable : MonoBehaviour, IPointerEnterHandler, IPointerExi
     private State _state;
     private bool _selected;
     private bool _pointerDown;
-    public event Action<SimpleSelectable> OnSelect;
-    public event Action<SimpleSelectable> OnDeselect;
+    public event Action<SelectableGraphic> OnSelect = delegate { };
+    public event Action<SelectableGraphic> OnDeselect = delegate { };
 
     public bool Interactable
     {
         get => _state != State.Disabled;
         set
         {
+            Selected = false;
             _state = value ? State.Normal : State.Disabled;
             UpdateGraphics(true);
-            _selected = false;
         }
     }
 

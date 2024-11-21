@@ -13,8 +13,11 @@ public static class IconStorage
 
         ChemistryStorage.SubstanceInfo.OnElementAdded += CreateIcon;
 
-        foreach (Pair<Substance, MaterialSettings> pair in ChemistryStorage.SubstanceInfo.List)
+        for (int i = 0; i < ChemistryStorage.SubstanceInfo.Count; i++)
+        {
+            Pair<Substance, MaterialSettings> pair = ChemistryStorage.SubstanceInfo[i];
             CreateIcon(pair.Key, pair.Value);
+        }
     }
 
     private static void CreateIcon(Substance substance, MaterialSettings materialSettings)

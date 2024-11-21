@@ -6,8 +6,5 @@ public abstract class SubstanceVisualizer : MonoBehaviour
 
     protected abstract void Revisualize();
 
-    protected virtual void Start()
-    {
-        Revisualize();
-    }
+    protected virtual void Start() => Revisualize();
 }

@@ -10,28 +10,36 @@ public static class PlayerInputHolder
     public static event Action GrabAndRelease = delegate { };
     public static event Action<float> ZoomGrabbed = delegate { };
     public static event Action InteractWithObject = delegate { };
+    public static event Action Fill = delegate { };
+    public static event Action Reset = delegate { };
 
     public static void Initialize()
     {
         if (_actions != null)
-        {
-            RotatePlayer = delegate { };
-            GrabAndRelease = delegate { };
-            ZoomGrabbed = delegate { };
-            InteractWithObject = delegate { };
-            _actions.PlayerTransform.Rotate.performed -= (InputAction.CallbackContext context) => RotatePlayer.Invoke(context.ReadValue<Vector2>());
-            _actions.WorldInteraction.GrabAndRelease.performed -= (InputAction.CallbackContext context) => GrabAndRelease.Invoke();
-            _actions.WorldInteraction.Zoom.performed -= (InputAction.CallbackContext context) => ZoomGrabbed.Invoke(context.ReadValue<float>());
-            _actions.WorldInteraction.Interact.performed -= (InputAction.CallbackContext context) => InteractWithObject.Invoke();
-            _actions.Dispose();
-        }
-
+            Dispose();
         _actions = new PlayerInputActions();
         _actions.PlayerTransform.Rotate.performed += (InputAction.CallbackContext context) => RotatePlayer.Invoke(context.ReadValue<Vector2>());
         _actions.WorldInteraction.GrabAndRelease.performed += (InputAction.CallbackContext context) => GrabAndRelease.Invoke();
         _actions.WorldInteraction.Zoom.performed += (InputAction.CallbackContext context) => ZoomGrabbed.Invoke(context.ReadValue<float>());
         _actions.WorldInteraction.Interact.performed += (InputAction.CallbackContext context) => InteractWithObject.Invoke();
+        _actions.Chemistry.Fill.performed += (InputAction.CallbackContext context) => Fill.Invoke();
+        _actions.Chemistry.Reset.performed += (InputAction.CallbackContext context) => Reset.Invoke();
         Enable();
+    }
+
+    private static void Dispose()
+    {
+        RotatePlayer = delegate { };
+        GrabAndRelease = delegate { };
+        ZoomGrabbed = delegate { };
+        InteractWithObject = delegate { };
+        _actions.PlayerTransform.Rotate.performed -= (InputAction.CallbackContext context) => RotatePlayer.Invoke(context.ReadValue<Vector2>());
+        _actions.WorldInteraction.GrabAndRelease.performed -= (InputAction.CallbackContext context) => GrabAndRelease.Invoke();
+        _actions.WorldInteraction.Zoom.performed -= (InputAction.CallbackContext context) => ZoomGrabbed.Invoke(context.ReadValue<float>());
+        _actions.WorldInteraction.Interact.performed -= (InputAction.CallbackContext context) => InteractWithObject.Invoke();
+        _actions.Chemistry.Fill.performed -= (InputAction.CallbackContext context) => Fill.Invoke();
+        _actions.Chemistry.Reset.performed -= (InputAction.CallbackContext context) => Reset.Invoke();
+        _actions.Dispose();
     }
 
     public static void Enable()
