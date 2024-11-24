@@ -3,7 +3,6 @@ using UnityEngine.Events;
 
 public class SubstanceEditor : MonoBehaviour
 {
-    [SerializeField] private ControllableSubstanceContainer substanceContainer;
     [SerializeField] private UnityEvent OnCreated;
     private MaterialSettings _materialSettings;
     private string _substanceName;
@@ -36,7 +35,6 @@ public class SubstanceEditor : MonoBehaviour
 
         ResetParameters();
         OnCreated.Invoke();
-        substanceContainer.GetInputRequest(substance);
     }
 
     public void SetSubstanceName(string substanceName) => _substanceName = substanceName;

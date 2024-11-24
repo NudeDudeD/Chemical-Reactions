@@ -37,6 +37,7 @@ public class Storage<T> where T : class, IComparable<T>
         }
         catch (Exception)
         {
+            MessageBox.Show("Error", "Failed to load data from " + _path + ".");
             _storage = new List<T>();
         }
     }

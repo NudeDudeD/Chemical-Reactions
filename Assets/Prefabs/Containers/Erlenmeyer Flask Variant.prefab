@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Convex
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -6099520548051917032, guid: 82efbd6f209a6ab4c8e561fcd37a4810, type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1865567283725866545, guid: 82efbd6f209a6ab4c8e561fcd37a4810, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -211,18 +215,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spill Particles
       objectReference: {fileID: 0}
-    - target: {fileID: 432785619189815220, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4816881199890291951, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
       propertyPath: _container
       value: 
       objectReference: {fileID: 6499901139344395581}
-    - target: {fileID: 4816881199890291951, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
-      propertyPath: _substanceHolderObject
-      value: 
-      objectReference: {fileID: 5842236253334003582}
     - target: {fileID: 7386488471355970724, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0

@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Convex
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -3226784486773249960, guid: 1facb00fc6b330b4590ed152a3aadcd3, type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2584479155668188111, guid: 1facb00fc6b330b4590ed152a3aadcd3, type: 3}
       propertyPath: m_RootOrder
       value: 45
@@ -195,30 +199,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7670117525928760902}
     m_Modifications:
-    - target: {fileID: 275513809529252859, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
-      propertyPath: EmissionModule.rateOverTime.scalar
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 275513809529252859, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
-      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
-      value: 40
-      objectReference: {fileID: 0}
     - target: {fileID: 432785619189815220, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
       propertyPath: m_Name
       value: Spill Particles
-      objectReference: {fileID: 0}
-    - target: {fileID: 432785619189815220, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4816881199890291951, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
       propertyPath: _container
       value: 
       objectReference: {fileID: 6310939190449041514}
-    - target: {fileID: 4816881199890291951, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
-      propertyPath: _substanceHolderObject
-      value: 
-      objectReference: {fileID: 7006030835657411836}
     - target: {fileID: 7386488471355970724, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0

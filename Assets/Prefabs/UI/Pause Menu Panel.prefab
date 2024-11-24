@@ -594,7 +594,10 @@ MonoBehaviour:
   _onSwitchedAway:
     m_PersistentCalls:
       m_Calls: []
-  _onSwitchedOn:
+  _onSwitchedTo:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSwitchedToPrevious:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &3474748426677765641

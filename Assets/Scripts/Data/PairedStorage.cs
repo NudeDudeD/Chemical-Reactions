@@ -42,6 +42,7 @@ public class PairedStorage<T1, T2> where T1 : class, IComparable<T1> where T2 : 
         }
         catch (Exception)
         {
+            MessageBox.Show("Error", "Failed to load data from " + _path + ".");
             _storage = new List<Pair<T1, T2>>();
         }
     }

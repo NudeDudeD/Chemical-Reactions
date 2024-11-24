@@ -8,34 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7220395664163828575}
     m_Modifications:
-    - target: {fileID: 275513809529252859, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
-      propertyPath: ShapeModule.radius.value
-      value: 2.9
-      objectReference: {fileID: 0}
     - target: {fileID: 432785619189815220, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
       propertyPath: m_Name
       value: Spill Particles
-      objectReference: {fileID: 0}
-    - target: {fileID: 432785619189815220, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 817753884719368691, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 817753884719368691, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
-      propertyPath: 'm_Materials.Array.data[1]'
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4816881199890291951, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
       propertyPath: _container
       value: 
       objectReference: {fileID: 6870588774901717284}
-    - target: {fileID: 4816881199890291951, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
-      propertyPath: _substanceHolderObject
-      value: 
-      objectReference: {fileID: 8032221842090568165}
     - target: {fileID: 7386488471355970724, guid: 333edfa33a9ee474c9b0816a10164bba, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.0026
@@ -100,7 +80,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8653390839215561847, guid: 24c728c68968f6447b856666f27564a5, type: 3}
       propertyPath: m_ProvidesContacts
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1763347166810072313, guid: 24c728c68968f6447b856666f27564a5, type: 3}
       propertyPath: m_Name

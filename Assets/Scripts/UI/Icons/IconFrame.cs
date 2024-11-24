@@ -9,4 +9,6 @@ public abstract class IconFrame : SelectableGraphic
     public string Text => _name.text;
 
     public abstract void Redraw();
+
+    public abstract void Reset();
 }

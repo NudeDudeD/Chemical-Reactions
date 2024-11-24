@@ -5,15 +5,16 @@ public class SubstanceMeshVisualiser : SubstanceVisualizer
 {
     private Renderer _substanceRenderer;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         _substanceRenderer = GetComponent<Renderer>();
-        _container.OnSubstanceChanged += Revisualize;
+        Container.OnSubstanceChanged += (_) => Revisualize();
     }
 
     protected override void Revisualize()
     {
-        Substance substance = _container.Substance;
+        Substance substance = Container.Substance;
         if (substance == null)
         {
             _substanceRenderer.enabled = false;

@@ -38,9 +38,16 @@ public static class JsonDataLoader
         json = "{\"_list\":" + json + "}";
         reader.Close();
 
-        ListHolder<T> holder;
+        ListHolder<T> holder = JsonUtility.FromJson<ListHolder<T>>(json);
+        return holder.List;
+    }
 
-        holder = JsonUtility.FromJson<ListHolder<T>>(json);
+    public static List<T> LoadFromResources<T>(string path)
+    {
+        TextAsset textAsset = Resources.Load<TextAsset>(path);
+        string json = textAsset.text;
+        json = "{\"_list\":" + json + "}";
+        ListHolder<T> holder = JsonUtility.FromJson<ListHolder<T>>(json);
         return holder.List;
     }
 
@@ -50,6 +57,8 @@ public static class JsonDataLoader
         string tabulation = string.Empty;
         char current = char.MinValue;
         char previous;
+        json = json.Replace("\t", string.Empty);
+        json = json.Replace("\n", string.Empty);
         for (int i = 0; i < json.Length; i++)
         {
             previous = current; 

@@ -55,8 +55,8 @@ public partial class Reaction : IComparable<Reaction>
 
     public Reaction(Substance reactive, Substance additionalReactive = null, Substance product = null, Substance additionalProduct = null, Agent[] reactionAgents = null, VisualEffect reactionEffect = VisualEffect.Default, bool worksInReverse = false)
     {
-        if (reactive == null && _additionalReactive != null)
-            _reactive = _additionalReactive;
+        if (reactive == null && additionalReactive != null)
+            _reactive = additionalReactive;
         else
         { 
             _reactive = reactive;

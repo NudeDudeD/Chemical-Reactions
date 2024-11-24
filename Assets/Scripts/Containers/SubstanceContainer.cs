@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class SubstanceContainer : MonoBehaviour
 {
-    [SerializeField] protected Substance _substance;
-    public event Action OnSubstanceChanged;
+    [SerializeField] private Substance _substance;
+    public event Action<Substance> OnSubstanceChanged = delegate { };
 
     protected virtual void Awake()
     {
@@ -28,9 +28,9 @@ public class SubstanceContainer : MonoBehaviour
         get => _substance;
 
         protected set
-        {
+        {        
             _substance = value;
-            OnSubstanceChanged.Invoke();
+            OnSubstanceChanged.Invoke(_substance);
         }
     }
 
@@ -45,18 +45,18 @@ public class SubstanceContainer : MonoBehaviour
     protected virtual void InteractWithContainer(SubstanceContainer interactableContainer) 
     {
         if (Substance == null)
-            RequestSubstanceOutput(interactableContainer);
+            RequestInput(interactableContainer);
         else
-            RequestSubstanceInput(interactableContainer);
+            RequestOutput(interactableContainer);
     }
 
-    protected virtual void RequestSubstanceInput(SubstanceContainer interactableContainer)
+    public virtual void RequestOutput(SubstanceContainer interactableContainer)
     {
         if (interactableContainer.GetInputRequest(Substance))
             Substance = null;
     }
 
-    protected virtual void RequestSubstanceOutput(SubstanceContainer interactableContainer)
+    public virtual void RequestInput(SubstanceContainer interactableContainer)
     {
         Substance requestedSubstance = interactableContainer.GetOutputRequest();
         if (requestedSubstance != null)

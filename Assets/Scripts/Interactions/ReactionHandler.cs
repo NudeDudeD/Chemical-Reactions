@@ -15,21 +15,15 @@ public class ReactionHandler : MonoBehaviour
 
     private void Awake()
     {
-        _container.OnSubstanceChanged += FillCheck;
-        _additionalContainer.OnSubstanceChanged += FillCheck;
-        _container.OnSubstanceChanged += TryReact;
-        _additionalContainer.OnSubstanceChanged += TryReact;
+        _container.OnSubstanceChanged += (_) => { FillCheck(); TryReact(); };
+        _additionalContainer.OnSubstanceChanged += (_) => { FillCheck(); TryReact(); };
         OnAgentsChanged += TryReact;
     }
 
     private void FillCheck()
     {
-        if (_container.Substance == null && _additionalContainer != null)
-        {
-            Substance substance = _additionalContainer.GetOutputRequest();
-            if (substance != null)
-                _container.GetInputRequest(substance);
-        }
+        if (_container.Substance == null && _additionalContainer.Substance != null)
+            _container.RequestInput(_additionalContainer);
     }
 
     private void TryReact()
@@ -53,9 +47,8 @@ public class ReactionHandler : MonoBehaviour
 
         _additionalContainer.GetOutputRequest();
         _container.GetOutputRequest();
-        if (!_container.GetInputRequest(product))
-            _additionalContainer.GetInputRequest(product);
-        else if (additionalProduct != null)
+        _container.GetInputRequest(product);
+        if (additionalProduct != null)
             _additionalContainer.GetInputRequest(additionalProduct);
 
         OnReactionPerformed.Invoke(reaction);

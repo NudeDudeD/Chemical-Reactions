@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,6 +9,7 @@ public abstract class IconList : MonoBehaviour
     [SerializeField] private Vector2 _startingPoint;
     [SerializeField] private Vector2 _offset;
     [SerializeField] protected IconFrame _iconPrefab;
+    [SerializeField] protected bool _onlyOneSelect;
 
     protected List<IconFrame> _icons = new List<IconFrame>();
     protected List<IconFrame> _selectedIcons = new List<IconFrame>();
@@ -23,13 +25,22 @@ public abstract class IconList : MonoBehaviour
         RectTransform rectTransform = _icons[index].GetComponent<RectTransform>();
         Vector2 position = _startingPoint + index * _offset;
         rectTransform.anchoredPosition = position;
-        _parent.sizeDelta = new Vector2(position.x + _startingPoint.x, _parent.sizeDelta.y);
+        
         index++;
         if (index < _icons.Count)
             SortIcon(index);
     }
 
-    private void AddSelectedIcon(SelectableGraphic sender) => _selectedIcons.Add((IconFrame)sender);
+    private void ResizeParent() => _parent.sizeDelta = new Vector2(_startingPoint.x * 2 + (_icons.Count - 1) * _offset.x, _parent.sizeDelta.y);
+
+    private void AddSelectedIcon(SelectableGraphic sender)
+    {
+        if (_onlyOneSelect)
+            for (int i = _selectedIcons.Count - 1; i >= 0; i--)
+                _selectedIcons[i].Selected = false;
+        IconFrame icon = (IconFrame)sender;
+        _selectedIcons.Add(icon);
+    }
 
     private void RemoveSelectedIcon(SelectableGraphic sender) => _selectedIcons.Remove((IconFrame)sender);
 
@@ -41,6 +52,7 @@ public abstract class IconList : MonoBehaviour
         RectTransform rectTransform = icon.GetComponent<RectTransform>();
         rectTransform.SetParent(_parent);
         _icons.Add(icon);
+        ResizeParent();
         SortIcon(_icons.Count - 1);
     }
 
@@ -53,7 +65,7 @@ public abstract class IconList : MonoBehaviour
         _icons[index].OnDeselect -= RemoveSelectedIcon;
         Destroy(_icons[index].gameObject); //pool of reusable icons is a good idea, have no time to implement it though
         _icons.RemoveAt(index);
-
+        ResizeParent();
         if (index < _icons.Count)
             SortIcon(index);
     }

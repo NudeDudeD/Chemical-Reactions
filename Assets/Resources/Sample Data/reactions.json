@@ -1,0 +1,282 @@
+[
+	{
+		"_reactive":
+		{
+			"_name":"Water",
+			"_state":0
+		},
+		"_product":
+		{
+			"_name":"Magnesium Hydroxide",
+			"_state":1
+		},
+		"_additionalReactive":
+		{
+			"_name":"Magnesium",
+			"_state":1
+		},
+		"_additionalProduct":
+		{
+			"_name":"",
+			"_state":0
+		},
+		"_agents":
+		[
+			
+		],
+		"_effect":0,
+		"_worksInReverse":false
+	},
+	{
+		"_reactive":
+		{
+			"_name":"Water",
+			"_state":0
+		},
+		"_product":
+		{
+			"_name":"Copper Hydroxide",
+			"_state":1
+		},
+		"_additionalReactive":
+		{
+			"_name":"Copper",
+			"_state":1
+		},
+		"_additionalProduct":
+		{
+			"_name":"",
+			"_state":0
+		},
+		"_agents":
+		[
+			
+		],
+		"_effect":0,
+		"_worksInReverse":false
+	},
+	{
+		"_reactive":
+		{
+			"_name":"Magnesium Hydroxide",
+			"_state":1
+		},
+		"_product":
+		{
+			"_name":"Copper Hydroxide",
+			"_state":1
+		},
+		"_additionalReactive":
+		{
+			"_name":"Copper",
+			"_state":1
+		},
+		"_additionalProduct":
+		{
+			"_name":"Magnesium",
+			"_state":1
+		},
+		"_agents":
+		[
+			
+		],
+		"_effect":0,
+		"_worksInReverse":true
+	},
+	{
+		"_reactive":
+		{
+			"_name":"Magnesium Sulfate",
+			"_state":1
+		},
+		"_product":
+		{
+			"_name":"Copper Sulfate",
+			"_state":1
+		},
+		"_additionalReactive":
+		{
+			"_name":"Copper",
+			"_state":1
+		},
+		"_additionalProduct":
+		{
+			"_name":"Magnesium",
+			"_state":1
+		},
+		"_agents":
+		[
+			
+		],
+		"_effect":0,
+		"_worksInReverse":true
+	},
+	{
+		"_reactive":
+		{
+			"_name":"Magnesium Sulfate",
+			"_state":1
+		},
+		"_product":
+		{
+			"_name":"Copper Sulfate",
+			"_state":1
+		},
+		"_additionalReactive":
+		{
+			"_name":"Copper Hydroxide",
+			"_state":1
+		},
+		"_additionalProduct":
+		{
+			"_name":"Magnesium Hydroxide",
+			"_state":1
+		},
+		"_agents":
+		[
+			
+		],
+		"_effect":0,
+		"_worksInReverse":true
+	},
+	{
+		"_reactive":
+		{
+			"_name":"Magnesium",
+			"_state":1
+		},
+		"_product":
+		{
+			"_name":"",
+			"_state":0
+		},
+		"_additionalReactive":
+		{
+			"_name":"",
+			"_state":0
+		},
+		"_additionalProduct":
+		{
+			"_name":"",
+			"_state":0
+		},
+		"_agents":
+		[
+			0
+		],
+		"_effect":1,
+		"_worksInReverse":false
+	},
+	{
+		"_reactive":
+		{
+			"_name":"Sulfuric Acid",
+			"_state":0
+		},
+		"_product":
+		{
+			"_name":"Magnesium Sulfate",
+			"_state":1
+		},
+		"_additionalReactive":
+		{
+			"_name":"Magnesium",
+			"_state":1
+		},
+		"_additionalProduct":
+		{
+			"_name":"Hydrogen",
+			"_state":2
+		},
+		"_agents":
+		[
+			
+		],
+		"_effect":0,
+		"_worksInReverse":false
+	},
+	{
+		"_reactive":
+		{
+			"_name":"Sulfuric Acid",
+			"_state":0
+		},
+		"_product":
+		{
+			"_name":"Copper Sulfate",
+			"_state":1
+		},
+		"_additionalReactive":
+		{
+			"_name":"Copper",
+			"_state":1
+		},
+		"_additionalProduct":
+		{
+			"_name":"Hydrogen",
+			"_state":2
+		},
+		"_agents":
+		[
+			
+		],
+		"_effect":0,
+		"_worksInReverse":false
+	},
+	{
+		"_reactive":
+		{
+			"_name":"Sulfuric Acid",
+			"_state":0
+		},
+		"_product":
+		{
+			"_name":"Magnesium Sulfate",
+			"_state":1
+		},
+		"_additionalReactive":
+		{
+			"_name":"Magnesium Hydroxide",
+			"_state":1
+		},
+		"_additionalProduct":
+		{
+			"_name":"Water",
+			"_state":0
+		},
+		"_agents":
+		[
+			
+		],
+		"_effect":0,
+		"_worksInReverse":false
+	},
+	{
+		"_reactive":
+		{
+			"_name":"Sulfuric Acid",
+			"_state":0
+		},
+		"_product":
+		{
+			"_name":"Copper Sulfate",
+			"_state":1
+		},
+		"_additionalReactive":
+		{
+			"_name":"Copper Hydroxide",
+			"_state":1
+		},
+		"_additionalProduct":
+		{
+			"_name":"Water",
+			"_state":0
+		},
+		"_agents":
+		[
+			
+		],
+		"_effect":0,
+		"_worksInReverse":false
+	}
+]

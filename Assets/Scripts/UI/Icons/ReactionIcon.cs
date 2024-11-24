@@ -9,10 +9,10 @@ public class ReactionIcon : IconFrame
     [SerializeField] private Reaction _reaction;
     [SerializeField] private Graphic[] _agentGraphics;
     [SerializeField] private MaskedTextureShifter _effectTextureShifter;
-    [SerializeField] private RawImage _reactiveImage;
-    [SerializeField] private RawImage _additionalReactiveImage;
-    [SerializeField] private RawImage _productImage;
-    [SerializeField] private RawImage _additionalProductImage;
+    [SerializeField] private SubstanceIcon _reactiveIcon;
+    [SerializeField] private SubstanceIcon _additionalReactiveIcon;
+    [SerializeField] private SubstanceIcon _productIcon;
+    [SerializeField] private SubstanceIcon _additionalProductIcon;
     [SerializeField] private TMP_Text _transitionText;
 
     public Reaction Reaction
@@ -27,14 +27,27 @@ public class ReactionIcon : IconFrame
 
     public override void Redraw()
     {
-        _reactiveImage.texture = IconStorage.GetTexture(_reaction.Reactive);
-        _reactiveImage.gameObject.SetActive(_reactiveImage.texture != null);
-        _additionalReactiveImage.texture = IconStorage.GetTexture(_reaction.AdditionalReactive);
-        _additionalReactiveImage.gameObject.SetActive(_additionalReactiveImage.texture != null);
-        _productImage.texture = IconStorage.GetTexture(_reaction.Product);
-        _productImage.gameObject.SetActive(_productImage.texture != null);
-        _additionalProductImage.texture = IconStorage.GetTexture(_reaction.AdditionalProduct);
-        _additionalProductImage.gameObject.SetActive(_additionalProductImage.texture != null);
+        if (_reaction == null)
+        {
+            _reactiveIcon.Substance = _additionalReactiveIcon.Substance = _productIcon.Substance = _additionalProductIcon.Substance = null;
+            _effectTextureShifter.ShiftTo(-1, 0);
+            _name.text = "No reaction";
+            _transitionText.text = string.Empty;
+
+            for (int i = 0; i < _agentGraphics.Length; i++)
+            {
+                Color color = _agentGraphics[i].color;
+                color.a = _deactivatedTransparency;
+                _agentGraphics[i].color = color;
+            }
+
+            return;
+        }
+
+        _reactiveIcon.Substance = _reaction.Reactive;
+        _additionalReactiveIcon.Substance = _reaction.AdditionalReactive;
+        _productIcon.Substance = _reaction.Product;
+        _additionalProductIcon.Substance = _reaction.AdditionalProduct;
 
         _effectTextureShifter.ShiftTo((int)_reaction.Effect, 0);
         _name.text = _reaction.Name;
@@ -56,4 +69,6 @@ public class ReactionIcon : IconFrame
             _agentGraphics[i].color = color;
         }
     }
+
+    public override void Reset() => Reaction = null;
 }
